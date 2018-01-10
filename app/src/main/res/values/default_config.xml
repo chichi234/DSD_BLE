@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="uuidHead" translatable="false">0000</string>
+    <string name="uuidEnd" translatable="false">-0000-1000-8000-00805f9b34fb</string>
+
+    <string name="UUIDservice" translatable="false">ffe0</string>
+    <string name="UUIDwrite" translatable="false">ffe1</string>
+    <string name="UUIDnotify" translatable="false">ffe1</string>
+   <!-- <string name="UUIDservice" translatable="false"></string>
+    <string name="UUIDwrite" translatable="false"></string>
+    <string name="UUIDnotify" translatable="false"></string>-->
+</resources>

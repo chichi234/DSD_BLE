@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">DSD_BLE</string>
+    <string name="device">Devices</string>
+    <string name="about">About</string>
+    <string name="settings">Settings</string>
+    <string name="appName">DSD TECH Bluetooth</string>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <string name="send">SEND</string>
+    <string name="conn">CONN</string>
+    <string name="disconn">DiSCONNECT</string>
+    <string name="clear">CLEAR</string>
+    <string name="exit">EXIT</string>
+    <string name="setting">SETTING</string>
+    <string name="read">READ</string>
+    <string name="write">WRITE</string>
+    <string name="hex" translatable="false">HEX</string>
+    <string name="string" translatable="false">ASCII</string>
+    <string name="uncorrect_data">The data is not correct , please check and resend</string>
+
+
+    <!-- ScannerFrag -->
+    <string name="scanner_action_scan">Scan</string>
+    <string name="scanner_title">Select Device:</string>
+    <string name="scanner_action_cancel">Close</string>
+    <string name="scanner_subtitle__not_bonded">Available device:</string>
+    <!-- <string name="scanner_subtitle_bonded">已绑定设备:</string> -->
+    <string name="scanner_empty">No device available</string>
+    <string name="not_available">n/a</string>
+
+
+
+    <!-- Common -->
+    <string name="device_loss_link">The blue tooth is disconnected,reconnect automatically later</string>
+    <string name="no_ble">Blue tooth4.0 not supported by phone</string>
+    <string name="device_error">Device not supported</string>
+    <string name="device_disConn">Disconnected</string>
+    <string name="device_conn">Connected successfully</string>
+    <string name="device_conning">Connecting&#8230;</string>
+    <string name="cant_send_when_moving">The device is in the running state, can not be applied instruction</string>
+
+
+    <string name="serviceUUID">serviceUUID:</string>
+    <string name="writeUUID">writeUUID:</string>
+    <string name="notifyUUID">notifyUUID:</string>
+    <string name="save">save</string>
+
+    <string name="copyright"  translatable="false">CopyRight©2015All Rights Reserved\nwww.sihaicorp.com\n深圳市四海盛电科技有限公司</string>
+</resources>
