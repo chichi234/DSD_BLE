@@ -20,6 +20,7 @@
 
 
 
+    <string name="connecting_alert">Bluetooth is connecting,Please wait.</string>
     <string name="send">SEND</string>
     <string name="conn">CONNECT</string>
     <string name="rssi">%d mDb</string>
@@ -67,4 +68,11 @@
     <string name="back">Back</string>
     <string name="Relay">Relay</string>
     <string name="SendRec">Send/Rec</string>
+    <string name="Relay1">Relay1</string>
+    <string name="Relay_all_on">All On</string>
+    <string name="Relay_all_off">ALL OFF</string>
+    <string name="Relay2">Relay2</string>
+    <string name="Relay3">Relay3</string>
+    <string name="Relay4">Relay4</string>
+    <string name="connecting">CONNECTING</string>
 </resources>

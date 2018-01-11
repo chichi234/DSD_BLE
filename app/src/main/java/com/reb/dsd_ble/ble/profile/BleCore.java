@@ -29,10 +29,10 @@ public class BleCore {
 
 //	private static final long WRITE_PERIOD = 1000L;
 
-    private static UUID SERVICE_UUID = UUID.fromString("0000ffe0-0000-1000-8000-00805f9b34fb");
-    private static UUID CHARACTER_UUID = UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb");
-    private static UUID notify_UUID;
-    private static UUID CLIENT_CHARACTERISTIC_CONFIG_DESCRIPTOR_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+//    private static UUID SERVICE_UUID = UUID.fromString("0000ffe0-0000-1000-8000-00805f9b34fb");
+//    private static UUID CHARACTER_UUID = UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb");
+//    private static UUID notify_UUID;
+//    private static UUID CLIENT_CHARACTERISTIC_CONFIG_DESCRIPTOR_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
 
 
     private final static String ERROR_CONNECTION_STATE_CHANGE = "Error on connection state change";
@@ -48,17 +48,29 @@ public class BleCore {
     private boolean mIsConnected;
 
     private String address;
+    private static BleCore mInstances;
 
-    public BleCore(Context ctx) {
-        String head = ctx.getString(R.string.uuidHead);
-        String end = ctx.getString(R.string.uuidEnd);
-        SharedPreferences mShare = ctx.getSharedPreferences(ShareString.SHARE_NAME, Context.MODE_PRIVATE);
-        String uuidStr = mShare.getString(ShareString.SAVE_SERVICE_UUID, ctx.getString(R.string.UUIDservice));
-        SERVICE_UUID = UUID.fromString(head + uuidStr + end);
-        String chaUUIDStr = mShare.getString(ShareString.SAVE_CHARACT_UUID, ctx.getString(R.string.UUIDwrite));
-        CHARACTER_UUID = UUID.fromString(head + chaUUIDStr + end);
-        String notifyUUIDStr = mShare.getString(ShareString.SAVE_NOTIFY_UUID, ctx.getString(R.string.UUIDnotify));
-        notify_UUID = UUID.fromString(head + notifyUUIDStr + end);
+    public static BleCore getInstances() {
+        if (mInstances == null) {
+            synchronized (BleCore.class) {
+                if (mInstances == null){
+                    mInstances = new BleCore();
+                }
+            }
+        }
+        return mInstances;
+    }
+
+    public BleCore() {
+//        String head = ctx.getString(R.string.uuidHead);
+//        String end = ctx.getString(R.string.uuidEnd);
+//        SharedPreferences mShare = ctx.getSharedPreferences(ShareString.SHARE_NAME, Context.MODE_PRIVATE);
+//        String uuidStr = mShare.getString(ShareString.SAVE_SERVICE_UUID, ctx.getString(R.string.UUIDservice));
+//        SERVICE_UUID = UUID.fromString(head + uuidStr + end);
+//        String chaUUIDStr = mShare.getString(ShareString.SAVE_CHARACT_UUID, ctx.getString(R.string.UUIDwrite));
+//        CHARACTER_UUID = UUID.fromString(head + chaUUIDStr + end);
+//        String notifyUUIDStr = mShare.getString(ShareString.SAVE_NOTIFY_UUID, ctx.getString(R.string.UUIDnotify));
+//        notify_UUID = UUID.fromString(head + notifyUUIDStr + end);
     }
 
 
@@ -67,6 +79,9 @@ public class BleCore {
         if (isConnected()) {
             if (device.getAddress().equals(address)) {
                 Log.d(TAG, "是同一个设备，忽略掉");
+                if (mIsConnected) {
+                    mCallbacks.onDeviceConnected();
+                }
                 return true;
             } else {
                 Log.d(TAG, "不同设备，先断开");
@@ -160,8 +175,8 @@ public class BleCore {
                 final List<BluetoothGattService> services = gatt.getServices();
                 BluetoothGattCharacteristic mCharacteristic = null;
                 for (BluetoothGattService service : services) {
-                    if (service.getUuid().equals(SERVICE_UUID)) {
-                        mCharacteristic = service.getCharacteristic(CHARACTER_UUID);
+                    if (service.getUuid().equals(BleConfiguration.SERVICE_BLE_SERVICE2)) {
+                        mCharacteristic = service.getCharacteristic(BleConfiguration.WRITE_LONG_DATA_CHARACTERISTIC2);
                         Log.i(TAG, "service is found" + "------" + mCharacteristic);
                     }
                 }
@@ -188,7 +203,7 @@ public class BleCore {
         public void onDescriptorWrite(final BluetoothGatt gatt, final BluetoothGattDescriptor descriptor, final int status) {
             Log.e(TAG, "onDescriptorWrite---->" + Arrays.toString(descriptor.getValue()));
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                if (descriptor.getUuid().equals(CLIENT_CHARACTERISTIC_CONFIG_DESCRIPTOR_UUID)) {
+                if (descriptor.getUuid().equals(BleConfiguration.NOTIFY_DESCRIPTOR)) {
                     byte[] value = descriptor.getValue();
                     if (value[0] == BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE[0]) {
                         mCallbacks.onNotifyEnable();
@@ -217,8 +232,8 @@ public class BleCore {
 
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-            Log.d(TAG, "onCharacteristicWrite---->" + characteristic.getUuid().equals(CHARACTER_UUID) + "******" + (mCallbacks != null) + "*****" + characteristic.getUuid().equals(CHARACTER_UUID));
-            if (characteristic.getUuid().equals(CHARACTER_UUID)) {
+            Log.d(TAG, "onCharacteristicWrite---->" + characteristic.getUuid().equals(BleConfiguration.WRITE_LONG_DATA_CHARACTERISTIC2) + "******" + (mCallbacks != null) + "*****" + characteristic.getUuid().equals(BleConfiguration.WRITE_LONG_DATA_CHARACTERISTIC2));
+            if (characteristic.getUuid().equals(BleConfiguration.WRITE_LONG_DATA_CHARACTERISTIC2)) {
                 if (status == BluetoothGatt.GATT_SUCCESS) {
                     byte[] value = characteristic.getValue();
                     DebugLog.i("write:" + HexStringConver.bytes2HexStr(value));
@@ -254,15 +269,30 @@ public class BleCore {
      * Enabling notification on Characteristic
      */
     private void enableNotification(final BluetoothGatt gatt) {
-        BluetoothGattCharacteristic notifyCha = mBluetoothGatt.getService(SERVICE_UUID).getCharacteristic(notify_UUID);
+        BluetoothGattCharacteristic notifyCha = mBluetoothGatt.getService(BleConfiguration.SERVICE_BLE_SERVICE2).getCharacteristic(BleConfiguration.NOTIFY_LONG_DATA_CHARACTERISTIC1);
         gatt.setCharacteristicNotification(notifyCha, true);
-        final BluetoothGattDescriptor descriptor = notifyCha.getDescriptor(CLIENT_CHARACTERISTIC_CONFIG_DESCRIPTOR_UUID);
+        final BluetoothGattDescriptor descriptor = notifyCha.getDescriptor(BleConfiguration.NOTIFY_DESCRIPTOR);
         descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
         gatt.writeDescriptor(descriptor);
     }
 
     protected void onError(String errorWriteDescriptor, int status) {
         disConnect(false);
+    }
+
+    public boolean readRssi() {
+        if (mIsConnected && mBluetoothGatt != null) {
+            return mBluetoothGatt.readRemoteRssi();
+        }
+        return false;
+    }
+
+    public boolean sendData(byte[] cmd) {
+        if (mIsConnected) {
+            BleConfiguration.mDataSend.sendData(mBluetoothGatt, cmd);
+            return true;
+        }
+        return false;
     }
 
 //

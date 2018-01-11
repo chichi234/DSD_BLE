@@ -41,19 +41,19 @@ public class DataSend {
     
 //    public String mDeviceAddressOfThis=null;
     public UUID mServiceUuid = null;
-    private UUID mShortDataCharacteristic = null;
-    private int mShortDataCharacteristicWriteType = BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE;
+//    private UUID mShortDataCharacteristic = null;
+//    private int mShortDataCharacteristicWriteType = BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE;
     private UUID mLongDataCharacteristic = null;
 //    private int mLongDataCharacteristicWriteType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT;
     private int mLongDataCharacteristicWriteType = BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE;
 
-    public DataSend(UUID mServiceUuid, UUID mShortDataCharacteristic,
-                    int mShortDataCharacteristicWriteType,
+    public DataSend(UUID mServiceUuid, /*UUID mShortDataCharacteristic,
+                    int mShortDataCharacteristicWriteType,*/
                     UUID mLongDataCharacteristic, int mLongDataCharacteristicWriteType) {
 		super();
 		this.mServiceUuid = mServiceUuid;
-		this.mShortDataCharacteristic = mShortDataCharacteristic;
-		this.mShortDataCharacteristicWriteType = mShortDataCharacteristicWriteType;
+//		this.mShortDataCharacteristic = mShortDataCharacteristic;
+//		this.mShortDataCharacteristicWriteType = mShortDataCharacteristicWriteType;
 		this.mLongDataCharacteristic = mLongDataCharacteristic;
 		this.mLongDataCharacteristicWriteType = mLongDataCharacteristicWriteType;
 	}

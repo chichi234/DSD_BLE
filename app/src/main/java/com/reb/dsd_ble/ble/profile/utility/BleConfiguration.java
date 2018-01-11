@@ -1,8 +1,12 @@
 package com.reb.dsd_ble.ble.profile.utility;
 
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.reb.dsd_ble.ble.profile.DataSend;
+import com.reb.dsd_ble.constant.ShareString;
+import com.reb.dsd_ble.ui.DsdApplication;
 
 import java.util.UUID;
 
@@ -40,15 +44,15 @@ public class BleConfiguration {
 	 * configure device relating UUID here.
 	 */
 	//SERVICE 1 for normal data
-	public static final UUID SERVICE_BLE_SERVICE1= UUID.fromString("0783b03e-8535-b5a0-7140-a304d2495cb1");
-	public static final UUID SERVICE_BLE_SERVICE2= UUID.fromString("0000faa0-0000-1000-8000-00805f9b34fb");
-	public static final UUID NOTIFY_SHORT_DATA_CHARACTERISTIC1= UUID.fromString("0783b03e-8535-b5a0-7140-a304d2495cb2");
-	public static final UUID NOTIFY_SHORT_DATA_CHARACTERISTIC2= UUID.fromString("0000fad1-0000-1000-8000-00805f9b34fb");
-	public static final UUID WRITE_SHORT_DATA_CHARACTERISTIC2= UUID.fromString("0000faa1-0000-1000-8000-00805f9b34fb");
-	public static final int WRITE_SHORT_DATA_CHARACTERISTIC_WRITE_TYPE= BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT;
-	public static final UUID NOTIFY_LONG_DATA_CHARACTERISTIC1= UUID.fromString("0783b03e-8535-b5a0-7140-a304d2495cb3");
-	public static final UUID NOTIFY_LONG_DATA_CHARACTERISTIC2= UUID.fromString("0000fad2-0000-1000-8000-00805f9b35fb");
-	public static final UUID WRITE_LONG_DATA_CHARACTERISTIC2= UUID.fromString("0000faa2-0000-1000-8000-00805f9b36fb");
+//	public static final UUID SERVICE_BLE_SERVICE1= UUID.fromString("0783b03e-8535-b5a0-7140-a304d2495cb1");
+	public static UUID SERVICE_BLE_SERVICE2= null;//UUID.fromString("0000faa0-0000-1000-8000-00805f9b34fb");
+//	public static final UUID NOTIFY_SHORT_DATA_CHARACTERISTIC1= UUID.fromString("0783b03e-8535-b5a0-7140-a304d2495cb2");
+//	public static final UUID NOTIFY_SHORT_DATA_CHARACTERISTIC2= UUID.fromString("0000fad1-0000-1000-8000-00805f9b34fb");
+//	public static final UUID WRITE_SHORT_DATA_CHARACTERISTIC2= UUID.fromString("0000faa1-0000-1000-8000-00805f9b34fb");
+//	public static final int WRITE_SHORT_DATA_CHARACTERISTIC_WRITE_TYPE= BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT;
+	public static UUID NOTIFY_LONG_DATA_CHARACTERISTIC1= null;//UUID.fromString("0783b03e-8535-b5a0-7140-a304d2495cb3");
+//	public static final UUID NOTIFY_LONG_DATA_CHARACTERISTIC2= UUID.fromString("0000fad2-0000-1000-8000-00805f9b35fb");
+	public static UUID WRITE_LONG_DATA_CHARACTERISTIC2 = null;//UUID.fromString("0000faa2-0000-1000-8000-00805f9b36fb");
 	public static final int WRITE_LONG_DATA_CHARACTERISTIC_WRITE_TYPE= BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE;
 
 	public static final UUID NOTIFY_DESCRIPTOR= UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
@@ -78,10 +82,26 @@ public class BleConfiguration {
 	 * As for this device,one utility corresponds to one sendData-service.
 	 */
 	public static DataSend mDataSend= new DataSend(SERVICE_BLE_SERVICE2,
-			WRITE_SHORT_DATA_CHARACTERISTIC2,
-			WRITE_SHORT_DATA_CHARACTERISTIC_WRITE_TYPE,
+//			WRITE_SHORT_DATA_CHARACTERISTIC2,
+//			WRITE_SHORT_DATA_CHARACTERISTIC_WRITE_TYPE,
 			WRITE_LONG_DATA_CHARACTERISTIC2,
 			WRITE_LONG_DATA_CHARACTERISTIC_WRITE_TYPE);
+
+    public static void init(DsdApplication context) {
+		SharedPreferences share = context.getSharedPreferences(ShareString.FILE_NAME, Context.MODE_PRIVATE);
+		String scanService = share.getString(ShareString.SCAN_FILTER_SERVICE_UUID, "ffe0");
+		String service = share.getString(ShareString.SAVE_SERVICE_UUID, "ffe0");
+		String writeCharactor = share.getString(ShareString.SAVE_CHARACT_UUID,"ffe1");
+		String notifyCharactor = share.getString(ShareString.SAVE_NOTIFY_UUID,"ffe1");
+		String head = "0000";
+		String end = "-0000-1000-8000-00805f9b34fb";
+		SERVICE_UUID_OF_SCAN_FILTER1 = UUID.fromString(head + scanService + end);
+		SERVICE_BLE_SERVICE2 = UUID.fromString(head + service + end);
+		WRITE_LONG_DATA_CHARACTERISTIC2 = UUID.fromString(head + writeCharactor + end);
+		SERVICE_UUID_OF_SCAN_FILTER1 = UUID.fromString(head + scanService + end);
+		NOTIFY_LONG_DATA_CHARACTERISTIC1 = UUID.fromString(head + notifyCharactor + end);
+
+    }
 //	public static DataSend mDataSend1 = new DataSend(SERVICE_BLE_SERVICE1,
 //			NOTIFY_SHORT_DATA_CHARACTERISTIC1,
 //			WRITE_SHORT_DATA_CHARACTERISTIC_WRITE_TYPE,

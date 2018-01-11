@@ -67,17 +67,20 @@ public class DeviceAdapter extends BaseAdapter {
         vh.mAddressView.setText(device.device.getAddress());
         vh.mTypeView.setText(device.type);
         vh.mRssiView.setText(mContext.getString(R.string.rssi, device.rssi));
+        final String name;
         if (TextUtils.isEmpty(device.name)) {
-            vh.mNameView.setText(R.string.unknown);
+            name = mContext.getString(R.string.unknown);
         } else {
-            vh.mNameView.setText(device.name);
+            name = device.name;
         }
+        vh.mNameView.setText(name);
         vh.mConnectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, ConnectActivity.class);
                 intent.putExtra("address", device.device.getAddress());
-                intent.getIntExtra("rssi", device.rssi);
+                intent.putExtra("rssi", device.rssi);
+                intent.putExtra("name", name);
                 mContext.startActivity(intent);
             }
         });
