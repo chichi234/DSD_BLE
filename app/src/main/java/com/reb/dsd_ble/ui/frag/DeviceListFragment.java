@@ -1,10 +1,17 @@
 package com.reb.dsd_ble.ui.frag;
 
 
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,24 +20,21 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.reb.dsd_ble.R;
+import com.reb.dsd_ble.ble.profile.utility.BleConfiguration;
+import com.reb.dsd_ble.ble.scanner.ExtendedBluetoothDevice;
 import com.reb.dsd_ble.ble.scanner.ScannerServiceParser;
 import com.reb.dsd_ble.ui.adapter.DeviceAdapter;
-
-import java.util.UUID;
+import com.reb.dsd_ble.util.DebugLog;
 
 /**
  * Created by Administrator on 2018/1/7 0007.
  */
 
 public class DeviceListFragment extends BaseFragment {
-    private final static String TAG = "ScannerFragment";
-
-    private final static String PARAM_UUID = "param_uuid";
     private final static long SCAN_DURATION = 8000;
 
     private BluetoothAdapter mBluetoothAdapter;
     private Handler mHandler = new Handler();
-    private UUID mUuid;
     private boolean mIsScanning = false;
 
     private View mRootView;
@@ -38,6 +42,15 @@ public class DeviceListFragment extends BaseFragment {
     private Button mScanButton;
     private DeviceAdapter mAdapter;
 
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        final BluetoothManager manager = (BluetoothManager) getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
+        if (manager != null) {
+            mBluetoothAdapter = manager.getAdapter();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,7 +63,19 @@ public class DeviceListFragment extends BaseFragment {
             mRootView = inflater.inflate(R.layout.frag_devices, null);
             mListView = mRootView.findViewById(R.id.devices);
             mScanButton = mRootView.findViewById(R.id.scan);
-            mAdapter = new DeviceAdapter();
+            mScanButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mIsScanning) {
+                        stopScan();
+                    } else {
+                        startScan();
+                    }
+                }
+            });
+            mAdapter = new DeviceAdapter(getActivity());
+            mListView.setAdapter(mAdapter);
+            startScan();
         }
         return mRootView;
     }
@@ -62,17 +87,20 @@ public class DeviceListFragment extends BaseFragment {
     private void startScan() {
         mAdapter.clearDevices();
         mScanButton.setText(R.string.scanner_action_cancel);
-        boolean scannerRet = mBluetoothAdapter.startLeScan(mLEScanCallback);
-
-        mIsScanning = true;
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mIsScanning) {
-                    stopScan();
+        if (confirmPermission()){
+            boolean scannerRet = mBluetoothAdapter.startLeScan(mLEScanCallback);
+            DebugLog.i("scan ret:" + scannerRet);
+            mIsScanning = true;
+            mScanButton.setText(R.string.scanner_action_stop_scanning);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (mIsScanning) {
+                        stopScan();
+                    }
                 }
-            }
-        }, SCAN_DURATION);
+            }, SCAN_DURATION);
+        }
     }
 
 
@@ -94,7 +122,15 @@ public class DeviceListFragment extends BaseFragment {
         @Override
         public void onLeScan(final BluetoothDevice device, final int rssi, final byte[] scanRecord) {
             if (device != null) {
-//                updateScannedDevice(device, rssi);
+                DebugLog.i(device.toString());
+                if (BleConfiguration.SERVICE_UUID_OF_SCAN_FILTER1 != null) {
+                    // 扫描过滤
+                    if (ScannerServiceParser.decodeDeviceAdvData(scanRecord, BleConfiguration.SERVICE_UUID_OF_SCAN_FILTER1)) {
+                        addOrUpdateScannedDevice(device, ScannerServiceParser.decodeDeviceName(scanRecord), rssi);
+                    }
+                } else {
+                    addOrUpdateScannedDevice(device, ScannerServiceParser.decodeDeviceName(scanRecord), rssi);
+                }
 //                if (mIsCustomUUID) {
 //                    try {
 //                        if (ScannerServiceParser.decodeDeviceAdvData(scanRecord, mUuid)) {
@@ -112,4 +148,46 @@ public class DeviceListFragment extends BaseFragment {
             }
         }
     };
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            startScan();
+        }
+    }
+
+    private void addOrUpdateScannedDevice(final BluetoothDevice device, final String name, final int rssi) {
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.addOrUpdateDevice(new ExtendedBluetoothDevice(device, name, rssi, "ONLY BLE", false));
+                }
+            });
+        }
+    }
+
+    private boolean confirmPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            String s = "";
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 2);
+                return false;
+            }
+            DebugLog.i("permission:" + s);
+        }
+        return true;
+    }
+
+//    private void updateScannedDevice(final BluetoothDevice device, final int rssi) {
+//        if (getActivity() != null) {
+//            getActivity().runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    mAdapter.updateDeviceRssi(device,rssi);
+//                }
+//            });
+//        }
+//    }
 }

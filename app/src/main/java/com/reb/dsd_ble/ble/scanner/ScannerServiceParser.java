@@ -11,6 +11,8 @@ package com.reb.dsd_ble.ble.scanner;
 import android.bluetooth.BluetoothDevice;
 import android.util.Log;
 
+import com.reb.dsd_ble.ble.profile.utility.BleConfiguration;
+
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 

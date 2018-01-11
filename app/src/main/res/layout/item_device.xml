@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/title_padding"
+    android:paddingEnd="@dimen/title_padding"
+    android:paddingLeft="@dimen/title_padding"
+    android:paddingRight="@dimen/title_padding"
+    android:paddingStart="@dimen/title_padding">
+
+    <TextView
+        android:id="@+id/item_device_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/title_padding"
+        android:layout_marginRight="@dimen/title_padding"
+        android:layout_toLeftOf="@id/item_device_connect"
+        android:layout_toStartOf="@id/item_device_connect"
+        android:ellipsize="marquee"
+        android:text="测试测试测试测试测试测试测试测试测试测试测试测试测试测试"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/item_device_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_device_name"
+        android:lines="1" />
+
+    <TextView
+        android:id="@+id/item_device_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_device_address"
+        android:lines="1"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/item_device_connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/conn" />
+
+    <TextView
+        android:id="@+id/item_device_rssi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/item_device_connect" />
+</RelativeLayout>

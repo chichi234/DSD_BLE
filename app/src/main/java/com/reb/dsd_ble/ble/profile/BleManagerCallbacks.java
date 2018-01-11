@@ -34,7 +34,7 @@ public interface BleManagerCallbacks {
 	/**
 	 * disconnection not initiated by the user.
 	 */
-	public void onLinklossOccur();
+	public void onLinklossOccur(String macAddress);
 
 
 
@@ -46,5 +46,7 @@ public interface BleManagerCallbacks {
 	public void onWriteSuccess(byte[] data);
 
 	void onRecive(byte[] data);
+
+	void onReadRssi(int rssi);
 	
 }

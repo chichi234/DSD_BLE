@@ -21,7 +21,8 @@
 
 
     <string name="send">SEND</string>
-    <string name="conn">CONN</string>
+    <string name="conn">CONNECT</string>
+    <string name="rssi">%d mDb</string>
     <string name="disconn">DiSCONNECT</string>
     <string name="clear">CLEAR</string>
     <string name="exit">EXIT</string>
@@ -35,6 +36,7 @@
 
     <!-- ScannerFrag -->
     <string name="scanner_action_scan">Scan</string>
+    <string name="scanner_action_stop_scanning">Stop Scanning</string>
     <string name="scanner_title">Select Device:</string>
     <string name="scanner_action_cancel">Close</string>
     <string name="scanner_subtitle__not_bonded">Available device:</string>
@@ -52,6 +54,7 @@
     <string name="device_conn">Connected successfully</string>
     <string name="device_conning">Connecting&#8230;</string>
     <string name="cant_send_when_moving">The device is in the running state, can not be applied instruction</string>
+    <string name="bluetooth_disabled">Please turn on Bluetooth</string>
 
 
     <string name="serviceUUID">serviceUUID:</string>
@@ -60,4 +63,5 @@
     <string name="save">save</string>
 
     <string name="copyright"  translatable="false">CopyRight©2015All Rights Reserved\nwww.sihaicorp.com\n深圳市四海盛电科技有限公司</string>
+    <string name="unknown"><![CDATA[<UNKNOWN>]]></string>
 </resources>

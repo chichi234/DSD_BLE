@@ -15,11 +15,13 @@ public class ExtendedBluetoothDevice {
 	public String name;
 	public int rssi;
 	public boolean isBonded;
+	public String type;
 
-	public ExtendedBluetoothDevice(BluetoothDevice device, String name, int rssi, boolean isBonded) {
+	public ExtendedBluetoothDevice(BluetoothDevice device, String name, int rssi, String type, boolean isBonded) {
 		this.device = device;
 		this.name = name;
 		this.rssi = rssi;
+		this.type = type;
 		this.isBonded = isBonded;
 	}
 
@@ -34,7 +36,7 @@ public class ExtendedBluetoothDevice {
 
 	/**
 	 * Class used as a temporary comparator to find the device in the List of {@link ExtendedBluetoothDevice}s. This must be done this way, because List#indexOf and List#contains use the parameter's
-	 * equals method, not the object's from list. See {@link DeviceListAdapter#updateRssiOfBondedDevice(String, int)} for example
+	 * equals method, not the object's from list.
 	 */
 	public static class AddressComparator {
 		public String address;

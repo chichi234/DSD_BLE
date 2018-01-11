@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.reb.dsd_ble.ui.act.MainActivity">
+    android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/main_container"
@@ -19,6 +17,7 @@
         android:background="@color/colorPrimary"
         android:layout_height="@dimen/main_tab_height"
         android:gravity="center"
+        android:checkedButton="@id/devices"
         android:padding="4dp">
 
 
