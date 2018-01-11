@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/colorPrimary"
+        android:padding="@dimen/title_padding">
+        <TextView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/back"
+            android:onClick="close"/>
+
+        <TextView
+            android:id="@+id/act_connect_device_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/back"
+            android:layout_toRightOf="@id/back"/>
+
+        <TextView
+            android:id="@+id/connect_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:text="@string/conn"/>
+    </RelativeLayout>
+
+    <RadioGroup
+        android:id="@+id/data_send_tab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/relay"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:textColor="@color/text_white"
+            android:textSize="18sp"
+            android:text="@string/Relay"/>
+
+        <RadioButton
+            android:id="@+id/log"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:textColor="@color/text_white"
+            android:textSize="18sp"
+            android:text="@string/SendRec"/>
+    </RadioGroup>
+
+    <RelativeLayout
+        android:id="@+id/alert_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:id="@+id/alert_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/alert_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/alert_progress"
+            android:layout_toEndOf="@id/alert_progress"/>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

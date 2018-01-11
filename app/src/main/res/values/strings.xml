@@ -64,4 +64,7 @@
 
     <string name="copyright"  translatable="false">CopyRight©2015All Rights Reserved\nwww.sihaicorp.com\n深圳市四海盛电科技有限公司</string>
     <string name="unknown"><![CDATA[<UNKNOWN>]]></string>
+    <string name="back">Back</string>
+    <string name="Relay">Relay</string>
+    <string name="SendRec">Send/Rec</string>
 </resources>
