@@ -37,7 +37,6 @@ public class DeviceListFragment extends BaseFragment {
     private Handler mHandler = new Handler();
     private boolean mIsScanning = false;
 
-    private View mRootView;
     private ListView mListView;
     private Button mScanButton;
     private DeviceAdapter mAdapter;
@@ -54,12 +53,8 @@ public class DeviceListFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (mRootView != null) {
-            ViewParent parent = mRootView.getParent();
-            if (parent != null) {
-                ((ViewGroup) parent).removeView(mRootView);
-            }
-        } else {
+        super.onCreateView(inflater, container, savedInstanceState);
+        if (mRootView == null) {
             mRootView = inflater.inflate(R.layout.frag_devices, null);
             mListView = mRootView.findViewById(R.id.devices);
             mScanButton = mRootView.findViewById(R.id.scan);

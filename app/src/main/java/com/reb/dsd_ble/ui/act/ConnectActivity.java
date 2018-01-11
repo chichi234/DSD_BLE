@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.reb.dsd_ble.R;
+import com.reb.dsd_ble.ui.frag.BaseFragment;
+import com.reb.dsd_ble.ui.frag.RelayFragment;
 
 /**
  * File description
@@ -21,10 +23,13 @@ import com.reb.dsd_ble.R;
 
 public class ConnectActivity extends Activity{
 
+    private RelayFragment mRelayFragment;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
+
     }
 
     public void close(View view) {
