@@ -36,6 +36,7 @@
         android:id="@+id/devices"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:descendantFocusability="afterDescendants"
         android:cacheColorHint="@android:color/transparent"/>
 
 

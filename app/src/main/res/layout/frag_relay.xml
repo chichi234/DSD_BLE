@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/relay_margin"
+        android:layout_marginBottom="@dimen/relay_margin_ver"
         android:orientation="horizontal">
 
         <TextView
@@ -29,7 +29,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/relay_margin"
+        android:layout_marginBottom="@dimen/relay_margin_ver"
         android:orientation="horizontal">
 
         <TextView
@@ -50,7 +50,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/relay_margin"
+        android:layout_marginBottom="@dimen/relay_margin_ver"
         android:orientation="horizontal">
 
         <TextView
@@ -71,7 +71,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/relay_margin"
+        android:layout_marginBottom="@dimen/relay_margin_ver"
         android:orientation="horizontal">
 
         <TextView
@@ -92,7 +92,6 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/relay_margin"
         android:orientation="horizontal">
 
         <Button
@@ -100,6 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/relay_margin"
+            android:layout_marginEnd="@dimen/relay_margin"
             android:text="@string/Relay_all_on" />
 
         <Button

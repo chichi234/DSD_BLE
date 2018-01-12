@@ -118,14 +118,16 @@ public class DeviceListFragment extends BaseFragment {
         public void onLeScan(final BluetoothDevice device, final int rssi, final byte[] scanRecord) {
             if (device != null) {
                 DebugLog.i(device.toString());
-                if (BleConfiguration.SERVICE_UUID_OF_SCAN_FILTER1 != null) {
-                    // 扫描过滤
-                    if (ScannerServiceParser.decodeDeviceAdvData(scanRecord, BleConfiguration.SERVICE_UUID_OF_SCAN_FILTER1)) {
-                        addOrUpdateScannedDevice(device, ScannerServiceParser.decodeDeviceName(scanRecord), rssi);
-                    }
-                } else {
-                    addOrUpdateScannedDevice(device, ScannerServiceParser.decodeDeviceName(scanRecord), rssi);
-                }
+                ExtendedBluetoothDevice extendDevice = ScannerServiceParser.decodeDeviceAdvData(scanRecord, device, rssi);
+                addOrUpdateScannedDevice(extendDevice);
+//                if (BleConfiguration.SERVICE_UUID_OF_SCAN_FILTER1 != null) {
+//                    // 扫描过滤
+//                    if (ScannerServiceParser.decodeDeviceAdvData(scanRecord, BleConfiguration.SERVICE_UUID_OF_SCAN_FILTER1)) {
+//                        addOrUpdateScannedDevice(device, ScannerServiceParser.decodeDeviceName(scanRecord), rssi);
+//                    }
+//                } else {
+//                    addOrUpdateScannedDevice(device, ScannerServiceParser.decodeDeviceName(scanRecord), rssi);
+//                }
 //                if (mIsCustomUUID) {
 //                    try {
 //                        if (ScannerServiceParser.decodeDeviceAdvData(scanRecord, mUuid)) {
@@ -152,12 +154,12 @@ public class DeviceListFragment extends BaseFragment {
         }
     }
 
-    private void addOrUpdateScannedDevice(final BluetoothDevice device, final String name, final int rssi) {
+    private void addOrUpdateScannedDevice(final ExtendedBluetoothDevice extendDevice) {
         if (getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mAdapter.addOrUpdateDevice(new ExtendedBluetoothDevice(device, name, rssi, "ONLY BLE", false));
+                    mAdapter.addOrUpdateDevice(extendDevice);
                 }
             });
         }

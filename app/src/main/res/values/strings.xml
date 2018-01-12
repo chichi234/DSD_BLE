@@ -75,4 +75,15 @@
     <string name="Relay3">Relay3</string>
     <string name="Relay4">Relay4</string>
     <string name="connecting">CONNECTING</string>
+    <string name="hex_rx">HEX RX:</string>
+    <string name="hex_tx">HEX TX</string>
+    <string name="ms">ms</string>
+    <string name="auto_send">Auto Send</string>
+
+    <string name="auto_send_interval_error">Auto send interval error! </string>
+    <string name="web_set">Website: http://www.dsdtech-global.com</string>
+    <string name="support">Support:dsdtech@163.com</string>
+    <string name="sales">Sales:info@dsdtech-global.com</string>
+    <string name="contact">Any question about DSD TECH brand products, please feel free to contact us!</string>
+    <string name="about_us">About US</string>
 </resources>

@@ -86,6 +86,7 @@ public class BleCore {
             } else {
                 Log.d(TAG, "不同设备，先断开");
                 disConnect(false);
+                mBluetoothGatt = null;
                 return true;
             }
         }
@@ -141,7 +142,6 @@ public class BleCore {
         mIsConnected = false;
     }
 
-
     /**
      * BluetoothGatt callbacks for connection/disconnection, service discovery, receiving indication, etc
      */
@@ -154,8 +154,9 @@ public class BleCore {
                     mBluetoothGatt.discoverServices();
                     //This will send callback to RSCActivity when device get connected
                     mCallbacks.onDeviceConnected();
+                    mIsConnected = true;
                 } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                    Log.i(TAG, "Device disconnected");
+                    Log.i(TAG, "Device disconnected, mUserDisConnect: " + mUserDisConnect);
                     if (mUserDisConnect) {
                         mCallbacks.onDeviceDisconnected();
                     } else {
@@ -171,13 +172,14 @@ public class BleCore {
 
         @Override
         public void onServicesDiscovered(final BluetoothGatt gatt, final int status) {
+            DebugLog.i("status:" + status);
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 final List<BluetoothGattService> services = gatt.getServices();
                 BluetoothGattCharacteristic mCharacteristic = null;
                 for (BluetoothGattService service : services) {
                     if (service.getUuid().equals(BleConfiguration.SERVICE_BLE_SERVICE2)) {
                         mCharacteristic = service.getCharacteristic(BleConfiguration.WRITE_LONG_DATA_CHARACTERISTIC2);
-                        Log.i(TAG, "service is found" + "------" + mCharacteristic);
+                        DebugLog.i("service is found" + "------" + mCharacteristic);
                     }
                 }
                 if (mCharacteristic == null) {
@@ -207,7 +209,6 @@ public class BleCore {
                     byte[] value = descriptor.getValue();
                     if (value[0] == BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE[0]) {
                         mCallbacks.onNotifyEnable();
-                        mIsConnected = true;
                     }
                 }
             } else {

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -23,6 +24,7 @@ import com.reb.dsd_ble.ble.profile.BleManagerCallbacks;
 import com.reb.dsd_ble.ui.frag.BaseFragment;
 import com.reb.dsd_ble.ui.frag.RelayFragment;
 import com.reb.dsd_ble.ui.frag.SendRecFragment;
+import com.reb.dsd_ble.util.DebugLog;
 
 /**
  * File description
@@ -52,6 +54,7 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
     private ProgressBar mWaitView;
     private TextView mDeviceInfoView;
     private TextView mConnectBtn;
+    private RadioGroup mTabGroup;
 
     private String mDeviceName;
     private String mDeviceAddress;
@@ -66,12 +69,14 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
                 case MSG_READ_RSSI :
                     if (!mBleCore.readRssi()){
                         mDeviceInfoView.setText(mDeviceName + "(-- dBm)");
+                        removeMessages(MSG_READ_RSSI);
                         sendEmptyMessageDelayed(MSG_READ_RSSI, 1000);
                     }
                     break;
                 case MSG_READ_RSSI_RESULT:
                     mRssi = (int) msg.obj;
                     mDeviceInfoView.setText(mDeviceName + "(" + mRssi + "dBm)");
+                    removeMessages(MSG_READ_RSSI);
                     sendEmptyMessageDelayed(MSG_READ_RSSI, 1000);
                     break;
                 case MSG_DEVICE_CONNECTED:
@@ -83,6 +88,8 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
                     }
                     mConnectBtn.setText(R.string.disconn);
                     mConnectBtn.setEnabled(true);
+                    removeMessages(MSG_READ_RSSI);
+                    sendEmptyMessage(MSG_READ_RSSI);
                     break;
                 case MSG_DEVICE_DISCONNECTED:
                     removeMessages(MSG_READ_RSSI);
@@ -152,16 +159,21 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
     protected void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
+        BleCore.getInstances().disconnect();
     }
 
     private void setData() {
-        showAlert(R.string.connecting_alert, true);
         mDeviceInfoView.setText(mDeviceName + "(" + mRssi + "dBm)");
+        connect();
+    }
+
+    private void connect() {
         mConnectBtn.setText(R.string.connecting);
         mConnectBtn.setEnabled(false);
         if (mCurrentFrag == mRelayFragment) {
             mRelayFragment.controlRelayEnable(false);
         }
+        showAlert(R.string.connecting_alert, true);
         mBleCore.connect(getApplicationContext(), mDeviceAddress);
     }
 
@@ -171,7 +183,33 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
         mWaitView = findViewById(R.id.alert_progress);
         mDeviceInfoView = findViewById(R.id.act_connect_device_info);
         mConnectBtn = findViewById(R.id.connect_btn);
-
+        mTabGroup = findViewById(R.id.data_send_tab);
+        mTabGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                BaseFragment target = null;
+                switch (checkedId) {
+                    case R.id.relay:
+                        target = mRelayFragment;
+                        break;
+                    case R.id.log:
+                        target = mSendRecFragment;
+                        break;
+                }
+                changeFragment(target);
+            }
+        });
+        mConnectBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DebugLog.i("connect btn .connected ? " + BleCore.getInstances().isConnected());
+                if (BleCore.getInstances().isConnected()) {
+                    mBleCore.disconnect();
+                } else {
+                    connect();
+                }
+            }
+        });
     }
 
     private void initData() {

@@ -95,10 +95,9 @@ public class BleConfiguration {
 		String notifyCharactor = share.getString(ShareString.SAVE_NOTIFY_UUID,"ffe1");
 		String head = "0000";
 		String end = "-0000-1000-8000-00805f9b34fb";
-		SERVICE_UUID_OF_SCAN_FILTER1 = UUID.fromString(head + scanService + end);
+//		SERVICE_UUID_OF_SCAN_FILTER1 = UUID.fromString(head + scanService + end);
 		SERVICE_BLE_SERVICE2 = UUID.fromString(head + service + end);
 		WRITE_LONG_DATA_CHARACTERISTIC2 = UUID.fromString(head + writeCharactor + end);
-		SERVICE_UUID_OF_SCAN_FILTER1 = UUID.fromString(head + scanService + end);
 		NOTIFY_LONG_DATA_CHARACTERISTIC1 = UUID.fromString(head + notifyCharactor + end);
 
     }

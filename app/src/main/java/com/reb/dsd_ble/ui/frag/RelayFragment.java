@@ -95,6 +95,9 @@ public class RelayFragment extends BaseFragment {
             mAllOff = mRootView.findViewById(R.id.relayAll_off);
             mAllOn.setOnClickListener(clickListener);
             mAllOff.setOnClickListener(clickListener);
+            if (!BleCore.getInstances().isConnected()) {
+                controlRelayEnable(false);
+            }
         }
         return mRootView;
     }
@@ -106,12 +109,14 @@ public class RelayFragment extends BaseFragment {
     }
 
     public void controlRelayEnable(boolean enable) {
-        mRelay1.setEnabled(enable);
-        mRelay2.setEnabled(enable);
-        mRelay3.setEnabled(enable);
-        mRelay4.setEnabled(enable);
-        mAllOn.setEnabled(enable);
-        mAllOff.setEnabled(enable);
+        if (mRelay1 != null) {
+            mRelay1.setEnabled(enable);
+            mRelay2.setEnabled(enable);
+            mRelay3.setEnabled(enable);
+            mRelay4.setEnabled(enable);
+            mAllOn.setEnabled(enable);
+            mAllOff.setEnabled(enable);
+        }
     }
 
     public void onDisconnected () {
