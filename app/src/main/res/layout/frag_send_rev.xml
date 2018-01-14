@@ -1,7 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_light"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
@@ -37,16 +36,16 @@
         android:text="@string/hex_rx" />
     <ToggleButton
         android:id="@+id/toggle_rx"
-        android:layout_width="wrap_content"
-        android:layout_toEndOf="@id/rx_lable"
-        android:layout_height="@dimen/relay_margin" />
+        style="@style/toggleBtn"
+        android:layout_toEndOf="@id/rx_lable" />
 
     <Button
         android:id="@+id/clear"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:background="@null"
         android:text="@string/clear"/>
 </RelativeLayout>
     <TextView
@@ -84,8 +83,7 @@
 
             <ToggleButton
                 android:id="@+id/toggle_tx"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/relay_margin" />
+                style="@style/toggleBtn"/>
 <!--
             <RadioGroup
                 android:id="@+id/sendType"
@@ -110,7 +108,7 @@
             <Button
                 android:id="@+id/send"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/btn_bg"
                 android:onClick="send"
@@ -152,8 +150,7 @@
 
         <ToggleButton
             android:id="@+id/toggle_auto_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/toggleBtn" />
 
        <!-- <Button
             android:id="@+id/conn"
