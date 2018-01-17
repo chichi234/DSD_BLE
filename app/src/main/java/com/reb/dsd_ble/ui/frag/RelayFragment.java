@@ -14,6 +14,7 @@ import android.widget.ToggleButton;
 import com.reb.dsd_ble.R;
 import com.reb.dsd_ble.ble.profile.BleCore;
 import com.reb.dsd_ble.ui.adapter.DeviceAdapter;
+import com.reb.dsd_ble.util.DebugLog;
 
 import java.util.Arrays;
 
@@ -124,11 +125,14 @@ public class RelayFragment extends BaseFragment {
     }
 
     public void onWriteSuccess(byte[] data) {
+        DebugLog.i("mIsAllControl:" + mIsAllControl);
         if (mIsAllControl) {
-            byte[] preSendData = mIsAllOn ? RELAY_ON[mAllIndex] : RELAY_OFF[mAllIndex];
-            if (Arrays.equals(data, preSendData)) {
+//            byte[] preSendData = mIsAllOn ? RELAY_ON[mAllIndex] : RELAY_OFF[mAllIndex];
+//            DebugLog.i("preSendData:" + Arrays.toString(preSendData));
+//            if (Arrays.equals(data, preSendData)) {
+//                DebugLog.i("preSendData:" + Arrays.toString(preSendData));
                 mHandler.sendEmptyMessageDelayed(MSG_SEND_ALL,100);
-            }
+//            }
         }
     }
 

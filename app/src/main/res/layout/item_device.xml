@@ -43,6 +43,7 @@
         android:layout_alignParentRight="true"
         android:background="@drawable/btn_bg"
         android:padding="10dp"
+        android:textColor="@color/text_white"
         android:text="@string/conn" />
 
     <TextView

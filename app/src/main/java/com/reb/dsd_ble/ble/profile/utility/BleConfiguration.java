@@ -99,6 +99,11 @@ public class BleConfiguration {
 		SERVICE_BLE_SERVICE2 = UUID.fromString(head + service + end);
 		WRITE_LONG_DATA_CHARACTERISTIC2 = UUID.fromString(head + writeCharactor + end);
 		NOTIFY_LONG_DATA_CHARACTERISTIC1 = UUID.fromString(head + notifyCharactor + end);
+		mDataSend= new DataSend(SERVICE_BLE_SERVICE2,
+//			WRITE_SHORT_DATA_CHARACTERISTIC2,
+//			WRITE_SHORT_DATA_CHARACTERISTIC_WRITE_TYPE,
+				WRITE_LONG_DATA_CHARACTERISTIC2,
+				WRITE_LONG_DATA_CHARACTERISTIC_WRITE_TYPE);
 
     }
 //	public static DataSend mDataSend1 = new DataSend(SERVICE_BLE_SERVICE1,

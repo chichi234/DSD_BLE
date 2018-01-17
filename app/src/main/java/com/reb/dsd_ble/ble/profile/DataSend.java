@@ -76,8 +76,7 @@ public class DataSend {
 
             @Override
             public void get() {
-                Log.i(TAG,"BleManager send pre:" + BleDataTypeUtils.bytesToHexString(cmd));
-//                    startSendThread(cmd);
+                DebugLog.i("BleManager send pre:" + BleDataTypeUtils.bytesToHexString(cmd));
                 startSendLongThread(cmd);
             }
         });
@@ -117,21 +116,10 @@ public class DataSend {
                 }
 
                 mServiceState = STATE_DATA_SENDING;
-
-//                if (cmd[0] == (byte) TclProtocol.SEND_LACK_DATA_APP_TO_DEV) {
-//                if (!is_long_data) {
-//                    characteristic = bgs.getCharacteristic(mShortDataCharacteristic);
-//                    if (characteristic == null) {
-//                        resetSendCmdState();
-//                        DebugLog.i("GattAttributes.SMALLRADAR_BLE_SERVICE_NOTIFI_CHARACTERISTIC is null");
-//                        return;
-//                    }
-//                    characteristic.setWriteType(mShortDataCharacteristicWriteType);
-//                } else {
                     characteristic = bgs.getCharacteristic(mLongDataCharacteristic);
                     if (characteristic == null) {
                         updateCmdState(STATE_DATA_SEND_IDLE);
-                        DebugLog.i("GattAttributes.SMALLRADAR_BLE_SERVICE_WRITE_NOTIFY_CHARACTERISTIC is null");
+                        DebugLog.i("GattAttributes.SMALLRADAR_BLE_SERVICE_WRITE_NOTIFY_CHARACTERISTIC is null,mLongDataCharacteristic:" + mLongDataCharacteristic);
                         return;
                     }
                     characteristic.setWriteType(mLongDataCharacteristicWriteType);
@@ -307,5 +295,4 @@ public class DataSend {
 
         }
     }
-
 }

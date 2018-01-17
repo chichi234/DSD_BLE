@@ -26,6 +26,8 @@ import com.reb.dsd_ble.ui.frag.RelayFragment;
 import com.reb.dsd_ble.ui.frag.SendRecFragment;
 import com.reb.dsd_ble.util.DebugLog;
 
+import java.util.Arrays;
+
 /**
  * File description
  *
@@ -163,6 +165,7 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
     }
 
     private void setData() {
+        mBleCore.setGattCallbacks(this);
         mDeviceInfoView.setText(mDeviceName + "(" + mRssi + "dBm)");
         connect();
     }
@@ -271,6 +274,7 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
 
     @Override
     public void onWriteSuccess(byte[] data) {
+        DebugLog.i("write success:" + Arrays.toString(data));
         mHandler.sendMessage(mHandler.obtainMessage(MSG_WRITE_SUCCESS, data));
     }
 

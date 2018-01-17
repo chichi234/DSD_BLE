@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.act.ConnectActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"/>
     </application>
 

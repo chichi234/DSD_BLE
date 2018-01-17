@@ -18,40 +18,25 @@
         android:layout_height="@dimen/main_tab_height"
         android:gravity="center"
         android:checkedButton="@id/devices"
-        android:padding="4dp">
+        android:paddingTop="7.5dp">
 
 
         <RadioButton
             android:id="@+id/devices"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:button="@null"
-            android:gravity="center"
-            android:textColor="@color/text_white"
-            android:text="@string/device"
+            style="@style/main_tab_btn"
             android:drawableTop="@drawable/bluetooth"/>
-
+<!-- android:text="@string/device"
+ android:text="@string/settings"
+ android:text="@string/about"
+ -->
         <RadioButton
             android:id="@+id/settings"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:button="@null"
-            android:gravity="center"
-            android:textColor="@color/text_white"
-            android:text="@string/settings"
+            style="@style/main_tab_btn"
             android:drawableTop="@drawable/settings"/>
 
         <RadioButton
             android:id="@+id/about"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:button="@null"
-            android:gravity="center"
-            android:textColor="@color/text_white"
-            android:text="@string/about"
+            style="@style/main_tab_btn"
             android:drawableTop="@drawable/info_point"/>
 
     </RadioGroup>

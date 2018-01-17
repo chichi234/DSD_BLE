@@ -153,8 +153,8 @@ public class BleCore {
                     Log.i(TAG, "Device connected");
                     mBluetoothGatt.discoverServices();
                     //This will send callback to RSCActivity when device get connected
-                    mCallbacks.onDeviceConnected();
                     mIsConnected = true;
+                    mCallbacks.onDeviceConnected();
                 } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                     Log.i(TAG, "Device disconnected, mUserDisConnect: " + mUserDisConnect);
                     if (mUserDisConnect) {
@@ -240,6 +240,7 @@ public class BleCore {
                     DebugLog.i("write:" + HexStringConver.bytes2HexStr(value));
                     BleConfiguration.mDataSend.updateCmdState(DataSend.STATE_DATA_SEND_IDLE);
                     if (BleConfiguration.mDataSend.isLastChunk()) {
+                        mCallbacks.onWriteSuccess(value);
                         BleConfiguration.mDataSend.sendNextCmd(false);
                     }
                 } else {
@@ -257,7 +258,7 @@ public class BleCore {
         @Override
         public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
             super.onReadRemoteRssi(gatt, rssi, status);
-            DebugLog.i("rssi:" + rssi);
+//            DebugLog.i("rssi:" + rssi);
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 mCallbacks.onReadRssi(rssi);
             } else {
@@ -289,6 +290,7 @@ public class BleCore {
     }
 
     public boolean sendData(byte[] cmd) {
+        DebugLog.i( "mIsConnected:" + mIsConnected + "," + Arrays.toString(cmd));
         if (mIsConnected) {
             BleConfiguration.mDataSend.sendData(mBluetoothGatt, cmd);
             return true;
