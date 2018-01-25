@@ -5,6 +5,9 @@ import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -36,6 +39,7 @@ public class DeviceListFragment extends BaseFragment {
     private BluetoothAdapter mBluetoothAdapter;
     private Handler mHandler = new Handler();
     private boolean mIsScanning = false;
+    private boolean mHasScaned = false;
 
     private ListView mListView;
     private Button mScanButton;
@@ -71,8 +75,22 @@ public class DeviceListFragment extends BaseFragment {
             mAdapter = new DeviceAdapter(getActivity());
             mListView.setAdapter(mAdapter);
             startScan();
+            initBtReceiver();
         }
         return mRootView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(mBtReceiver);
+    }
+
+    private void initBtReceiver() {
+        if (getActivity() != null) {
+            IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+            getActivity().registerReceiver(mBtReceiver, filter);
+        }
     }
 
     /**
@@ -82,7 +100,8 @@ public class DeviceListFragment extends BaseFragment {
     private void startScan() {
         mAdapter.clearDevices();
         mScanButton.setText(R.string.scanner_action_cancel);
-        if (confirmPermission()){
+        if (confirmPermission() && checkBtState()){
+            mHasScaned = true;
             boolean scannerRet = mBluetoothAdapter.startLeScan(mLEScanCallback);
             DebugLog.i("scan ret:" + scannerRet);
             mIsScanning = true;
@@ -96,6 +115,10 @@ public class DeviceListFragment extends BaseFragment {
                 }
             }, SCAN_DURATION);
         }
+    }
+
+    private boolean checkBtState() {
+        return mBluetoothAdapter.isEnabled();
     }
 
 
@@ -120,28 +143,6 @@ public class DeviceListFragment extends BaseFragment {
                 DebugLog.i(device.toString());
                 ExtendedBluetoothDevice extendDevice = ScannerServiceParser.decodeDeviceAdvData(scanRecord, device, rssi);
                 addOrUpdateScannedDevice(extendDevice);
-//                if (BleConfiguration.SERVICE_UUID_OF_SCAN_FILTER1 != null) {
-//                    // 扫描过滤
-//                    if (ScannerServiceParser.decodeDeviceAdvData(scanRecord, BleConfiguration.SERVICE_UUID_OF_SCAN_FILTER1)) {
-//                        addOrUpdateScannedDevice(device, ScannerServiceParser.decodeDeviceName(scanRecord), rssi);
-//                    }
-//                } else {
-//                    addOrUpdateScannedDevice(device, ScannerServiceParser.decodeDeviceName(scanRecord), rssi);
-//                }
-//                if (mIsCustomUUID) {
-//                    try {
-//                        if (ScannerServiceParser.decodeDeviceAdvData(scanRecord, mUuid)) {
-//                            // On some devices device.getName() is always null. We have to parse the name manually :(
-//                            // This bug has been found on Sony Xperia Z1 (C6903) with Android 4.3.
-//                            // https://devzone.nordicsemi.com/index.php/cannot-see-device-name-in-sony-z1
-//                            addScannedDevice(device, ScannerServiceParser.decodeDeviceName(scanRecord), rssi, DEVICE_NOT_BONDED);
-//                        }
-//                    } catch (Exception e) {
-//                        Log.e(TAG, "Invalid data in Advertisement packet " + e.toString());
-//                    }
-//                } else {
-//                    addScannedDevice(device, ScannerServiceParser.decodeDeviceName(scanRecord), rssi, DEVICE_NOT_BONDED);
-//                }
             }
         }
     };
@@ -176,6 +177,20 @@ public class DeviceListFragment extends BaseFragment {
         }
         return true;
     }
+
+    private BroadcastReceiver mBtReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(intent.getAction())) {
+                int newState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.STATE_OFF);
+                if (newState == BluetoothAdapter.STATE_ON) {
+                    if (!mHasScaned) {
+                        startScan();
+                    }
+                }
+            }
+        }
+    };
 
 //    private void updateScannedDevice(final BluetoothDevice device, final int rssi) {
 //        if (getActivity() != null) {

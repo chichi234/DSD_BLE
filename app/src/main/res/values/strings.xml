@@ -24,7 +24,7 @@
     <string name="send">SEND</string>
     <string name="conn">CONNECT</string>
     <string name="rssi">%d mDb</string>
-    <string name="disconn">DiSCONNECT</string>
+    <string name="disconn">DISCONNECT</string>
     <string name="clear">CLEAR</string>
     <string name="exit">EXIT</string>
     <string name="setting">SETTING</string>

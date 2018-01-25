@@ -10,6 +10,7 @@
         android:background="@color/colorPrimary"
         android:gravity="center"
         android:text="@string/about_us"
+        android:textSize="24sp"
         android:textColor="@color/text_white"
         android:textStyle="bold" />
 

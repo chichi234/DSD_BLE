@@ -57,6 +57,8 @@ public class BleConfiguration {
 
 	public static final UUID NOTIFY_DESCRIPTOR= UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
 
+	public static long AUTO_INTERVAL = 1000;
+
 //	/**
 //	 *  create some BleProperties utilities here for particular characteristic of device's specific service.
 //	 *  As for device's service,one utility corresponds to one notify characteristic
@@ -105,6 +107,7 @@ public class BleConfiguration {
 				WRITE_LONG_DATA_CHARACTERISTIC2,
 				WRITE_LONG_DATA_CHARACTERISTIC_WRITE_TYPE);
 
+		AUTO_INTERVAL = share.getLong(ShareString.SAVE_AUTO_INTERVAL, AUTO_INTERVAL);
     }
 //	public static DataSend mDataSend1 = new DataSend(SERVICE_BLE_SERVICE1,
 //			NOTIFY_SHORT_DATA_CHARACTERISTIC1,

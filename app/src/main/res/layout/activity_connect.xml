@@ -15,9 +15,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:gravity="center"
             android:onClick="close"
-            android:text="@string/back"
+            android:drawableLeft="@drawable/back"
             android:textColor="@color/text_white"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -56,7 +55,7 @@
         android:id="@+id/data_send_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="#d97810"
         android:orientation="horizontal"
         android:checkedButton="@id/relay">
 

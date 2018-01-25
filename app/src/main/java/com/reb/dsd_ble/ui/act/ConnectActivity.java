@@ -47,6 +47,7 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
     private static final int MSG_LINK_LOSS = 0x10005;
     private static final int MSG_WRITE_SUCCESS = 0x10006;
     private static final int MSG_RECEIVE_DATA = 0x10007;
+    private static final int MSG_CONNECT_TIME_OUT = 0x10008;
 
     private RelayFragment mRelayFragment;
     private SendRecFragment mSendRecFragment;
@@ -98,6 +99,7 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
                     mDeviceInfoView.setText(mDeviceName + "(-- dBm)");
                     mConnectBtn.setText(R.string.conn);
                     mRelayFragment.onDisconnected();
+                    mAlertLayout.setVisibility(View.GONE);
                     if (mCurrentFrag == mRelayFragment) {
                         mRelayFragment.controlRelayEnable(false);
                     } else if(mCurrentFrag == mSendRecFragment) {
@@ -107,23 +109,30 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
                 case MSG_LINK_LOSS:
                     String macAddress = (String) msg.obj;
                     if (!mDeviceAddress.equals(macAddress)) {
-                        showAlert(R.string.connecting_alert, true);
-                        mBleCore.connect(getApplicationContext(), mDeviceAddress);
+                        connect();
                     }
                     break;
                 case MSG_WRITE_SUCCESS:
-                    byte[] writeData = (byte[]) msg.obj;
+                    Object[] obj = (Object[]) msg.obj;
+                    byte[] writeData = (byte[]) obj[0];
+                    boolean success = (boolean) obj[1];
                     if (mCurrentFrag == mSendRecFragment) {
-                        mSendRecFragment.writeSuccess(writeData);
-                    } else if (mCurrentFrag == mRelayFragment) {
-                        mRelayFragment.onWriteSuccess(writeData);
+                        mSendRecFragment.writeSuccess(writeData, success);
                     }
-                    break;
+                    if (mRelayFragment != null) {
+                        mRelayFragment.onWriteSuccess(writeData, success);
+                    }
+                     break;
                 case MSG_RECEIVE_DATA:
                     if (mCurrentFrag == mSendRecFragment) {
                         byte[] data = (byte[]) msg.obj;
                         mSendRecFragment.receive(data);
                     }
+                    break;
+                case MSG_CONNECT_TIME_OUT:
+                    mBleCore.disconnect();
+                    onDeviceDisconnected();
+                    mConnectBtn.setEnabled(true);
                     break;
             }
         }
@@ -178,6 +187,7 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
         }
         showAlert(R.string.connecting_alert, true);
         mBleCore.connect(getApplicationContext(), mDeviceAddress);
+        mHandler.sendEmptyMessageDelayed(MSG_CONNECT_TIME_OUT, 6 * 1000);
     }
 
     private void initView() {
@@ -244,6 +254,7 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
 
     @Override
     public void onDeviceConnected() {
+        mHandler.removeMessages(MSG_CONNECT_TIME_OUT);
         mHandler.sendEmptyMessage(MSG_DEVICE_CONNECTED);
     }
 
@@ -273,9 +284,9 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
     }
 
     @Override
-    public void onWriteSuccess(byte[] data) {
-        DebugLog.i("write success:" + Arrays.toString(data));
-        mHandler.sendMessage(mHandler.obtainMessage(MSG_WRITE_SUCCESS, data));
+    public void onWriteSuccess(byte[] data, boolean success) {
+        DebugLog.i("write success:" + Arrays.toString(data) + ",success:" + success);
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_WRITE_SUCCESS, new Object[]{data, success}));
     }
 
     @Override

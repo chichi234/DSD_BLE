@@ -43,7 +43,7 @@ public interface BleManagerCallbacks {
 	 */
 	public void onDeviceNotSupported();
 	
-	public void onWriteSuccess(byte[] data);
+	public void onWriteSuccess(byte[] data, boolean success);
 
 	void onRecive(byte[] data);
 

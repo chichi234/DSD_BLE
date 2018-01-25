@@ -1,5 +1,7 @@
 package com.reb.dsd_ble.ui.frag;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -15,6 +17,8 @@ import android.widget.ToggleButton;
 
 import com.reb.dsd_ble.R;
 import com.reb.dsd_ble.ble.profile.BleCore;
+import com.reb.dsd_ble.ble.profile.utility.BleConfiguration;
+import com.reb.dsd_ble.constant.ShareString;
 import com.reb.dsd_ble.util.HexStringConver;
 
 import java.text.SimpleDateFormat;
@@ -46,8 +50,22 @@ public class SendRecFragment extends BaseFragment {
             mRootView = inflater.inflate(R.layout.frag_send_rev, null);
             findViews();
             initListener();
+            mAutoIntervalView.setText(BleConfiguration.AUTO_INTERVAL + "");
         }
         return mRootView;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        SharedPreferences share = getActivity().getSharedPreferences(ShareString.FILE_NAME, Context.MODE_PRIVATE);
+        try {
+            long delay = Long.parseLong(mAutoIntervalView.getText().toString());
+            BleConfiguration.AUTO_INTERVAL = delay;
+            share.edit().putLong(ShareString.SAVE_AUTO_INTERVAL, delay).apply();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -156,7 +174,7 @@ public class SendRecFragment extends BaseFragment {
     }
 
 
-    public void writeSuccess(byte[] data) {
+    public void writeSuccess(byte[] data, boolean success) {
 
     }
 

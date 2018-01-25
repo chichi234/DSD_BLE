@@ -235,17 +235,18 @@ public class BleCore {
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             Log.d(TAG, "onCharacteristicWrite---->" + characteristic.getUuid().equals(BleConfiguration.WRITE_LONG_DATA_CHARACTERISTIC2) + "******" + (mCallbacks != null) + "*****" + characteristic.getUuid().equals(BleConfiguration.WRITE_LONG_DATA_CHARACTERISTIC2));
             if (characteristic.getUuid().equals(BleConfiguration.WRITE_LONG_DATA_CHARACTERISTIC2)) {
+                byte[] value = characteristic.getValue();
                 if (status == BluetoothGatt.GATT_SUCCESS) {
-                    byte[] value = characteristic.getValue();
                     DebugLog.i("write:" + HexStringConver.bytes2HexStr(value));
                     BleConfiguration.mDataSend.updateCmdState(DataSend.STATE_DATA_SEND_IDLE);
                     if (BleConfiguration.mDataSend.isLastChunk()) {
-                        mCallbacks.onWriteSuccess(value);
+                        mCallbacks.onWriteSuccess(value, true);
                         BleConfiguration.mDataSend.sendNextCmd(false);
                     }
                 } else {
                     BleConfiguration.mDataSend.updateCmdState(DataSend.STATE_DATA_SEND_IDLE);
                     if (BleConfiguration.mDataSend.isLastChunk()) {
+                        mCallbacks.onWriteSuccess(value, false);
                         BleConfiguration.mDataSend.sendNextCmd(true);
                     } else {
                         // 重新发送该条消息(中断分包发送，发送下一条消息)

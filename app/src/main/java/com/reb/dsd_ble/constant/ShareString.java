@@ -19,5 +19,7 @@ public class ShareString {
 
     public static final String SAVE_NOTIFY_UUID = "SAVE_notify_UUID";
 
+    public static final String SAVE_AUTO_INTERVAL = "SAVE_AUTO_INTERVAL";
+
 
 }

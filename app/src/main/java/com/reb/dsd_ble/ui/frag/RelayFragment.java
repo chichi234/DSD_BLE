@@ -48,12 +48,12 @@ public class RelayFragment extends BaseFragment {
             {(byte) 0xA0, 4, 0, (byte) 0xA4}
     };
 
-    private ToggleButton mRelay1,mRelay2,mRelay3,mRelay4;
-    private Button mAllOn,mAllOff;
+    private ToggleButton mRelay1, mRelay2, mRelay3, mRelay4;
+    private Button mAllOn, mAllOff;
 
     private boolean mIsAllControl = false;
     private boolean mIsAllOn = false;
-    private int mAllIndex = 0;
+    private int mAllIndex = -1;
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -64,13 +64,14 @@ public class RelayFragment extends BaseFragment {
                     byte[] data = (byte[]) msg.obj;
                     BleCore.getInstances().sendData(data);
                     break;
-                case MSG_SEND_ALL :
+                case MSG_SEND_ALL:
                     if (mIsAllControl) {
-                        BleCore.getInstances().sendData(mIsAllOn ? RELAY_ON[mAllIndex] : RELAY_OFF[mAllIndex]);
                         if (++mAllIndex >= RELAY_ON.length) {
                             // 结束
                             controlRelayEnable(true);
                             reset();
+                        } else {
+                            BleCore.getInstances().sendData(mIsAllOn ? RELAY_ON[mAllIndex] : RELAY_OFF[mAllIndex]);
                         }
                     }
                     break;
@@ -120,26 +121,76 @@ public class RelayFragment extends BaseFragment {
         }
     }
 
-    public void onDisconnected () {
+    public void onDisconnected() {
         reset();
     }
 
-    public void onWriteSuccess(byte[] data) {
-        DebugLog.i("mIsAllControl:" + mIsAllControl);
-        if (mIsAllControl) {
-//            byte[] preSendData = mIsAllOn ? RELAY_ON[mAllIndex] : RELAY_OFF[mAllIndex];
-//            DebugLog.i("preSendData:" + Arrays.toString(preSendData));
-//            if (Arrays.equals(data, preSendData)) {
-//                DebugLog.i("preSendData:" + Arrays.toString(preSendData));
-                mHandler.sendEmptyMessageDelayed(MSG_SEND_ALL,100);
-//            }
+    public void onWriteSuccess(byte[] data, boolean success) {
+
+        if (mIsAllControl && success) {
+            byte[][] dataArray = mIsAllOn ? RELAY_ON : RELAY_OFF;
+            int index = findArrayIndex(dataArray, data);
+            DebugLog.i("mIsAllControl:" + mIsAllControl + ",index:" + index);
+            switch (index) {
+                case 0:
+                    changeToggle(mRelay1, mIsAllOn);
+                    break;
+                case 1:
+                    changeToggle(mRelay2, mIsAllOn);
+                    break;
+                case 2:
+                    changeToggle(mRelay3, mIsAllOn);
+                    break;
+                case 3:
+                    changeToggle(mRelay4, mIsAllOn);
+                    break;
+            }
+            mHandler.sendEmptyMessageDelayed(MSG_SEND_ALL, 100);
         }
+        // 失败还原
+        if (!success) {
+            boolean isOn = true;
+            int index = findArrayIndex(RELAY_ON, data);
+            if (index == -1) {
+                isOn = false;
+                index = findArrayIndex(RELAY_OFF, data);
+            }
+            switch (index) {
+                case 0:
+                    changeToggle(mRelay1, !isOn);
+                    break;
+                case 1:
+                    changeToggle(mRelay2, !isOn);
+                    break;
+                case 2:
+                    changeToggle(mRelay3, !isOn);
+                    break;
+                case 3:
+                    changeToggle(mRelay4, !isOn);
+                    break;
+            }
+        }
+    }
+
+    private void changeToggle(ToggleButton relay, boolean checked) {
+        relay.setOnCheckedChangeListener(null);
+        relay.setChecked(checked);
+        relay.setOnCheckedChangeListener(mRelayChangeListener);
+    }
+
+    private int findArrayIndex(byte[][] dataArray, byte[] data) {
+        for (int i = 0; i < dataArray.length; i++) {
+            if (Arrays.equals(dataArray[i], data)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private void reset() {
         mIsAllControl = false;
         mIsAllOn = false;
-        mAllIndex = 0;
+        mAllIndex = -1;
         mHandler.removeCallbacksAndMessages(null);
     }
 
@@ -148,16 +199,16 @@ public class RelayFragment extends BaseFragment {
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             int index = -1;
             switch (buttonView.getId()) {
-                case R.id.relay1_toggle :
+                case R.id.relay1_toggle:
                     index = 0;
                     break;
-                case R.id.relay2_toggle :
+                case R.id.relay2_toggle:
                     index = 1;
                     break;
-                case R.id.relay3_toggle :
+                case R.id.relay3_toggle:
                     index = 2;
                     break;
-                case R.id.relay4_toggle :
+                case R.id.relay4_toggle:
                     index = 3;
                     break;
             }
@@ -171,7 +222,7 @@ public class RelayFragment extends BaseFragment {
         @Override
         public void onClick(View v) {
             mIsAllControl = true;
-            mAllIndex = 0;
+            mAllIndex = -1;
             switch (v.getId()) {
                 case R.id.relayAll_on:
                     mIsAllOn = true;
