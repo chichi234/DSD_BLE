@@ -74,16 +74,30 @@ public class DeviceListFragment extends BaseFragment {
             });
             mAdapter = new DeviceAdapter(getActivity());
             mListView.setAdapter(mAdapter);
-            startScan();
+//            startScan();
             initBtReceiver();
         }
         return mRootView;
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        startScan();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(mBtReceiver);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            startScan();
+        }
     }
 
     private void initBtReceiver() {
@@ -99,8 +113,7 @@ public class DeviceListFragment extends BaseFragment {
      */
     private void startScan() {
         mAdapter.clearDevices();
-        mScanButton.setText(R.string.scanner_action_cancel);
-        if (confirmPermission() && checkBtState()){
+        if (!mIsScanning && confirmPermission() && checkBtState()){
             mHasScaned = true;
             boolean scannerRet = mBluetoothAdapter.startLeScan(mLEScanCallback);
             DebugLog.i("scan ret:" + scannerRet);
