@@ -67,9 +67,9 @@
     <string name="unknown"><![CDATA[<UNKNOWN>]]></string>
     <string name="back">Back</string>
     <string name="Relay">Relay</string>
-    <string name="SendRec">Send/Rec</string>
+    <string name="SendRec">Data</string>
     <string name="Relay1">Relay1</string>
-    <string name="Relay_all_on">All On</string>
+    <string name="Relay_all_on">ALL ON</string>
     <string name="Relay_all_off">ALL OFF</string>
     <string name="Relay2">Relay2</string>
     <string name="Relay3">Relay3</string>
@@ -86,4 +86,5 @@
     <string name="sales">Sales:info@dsdtech-global.com</string>
     <string name="contact">Any question about DSD TECH brand products, please feel free to contact us!</string>
     <string name="about_us">About US</string>
+    <string name="connect_failed">Failed to connect Bluetooth device, please try again!</string>
 </resources>

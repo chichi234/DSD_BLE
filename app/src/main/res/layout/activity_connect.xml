@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f3f3f5"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -36,7 +37,7 @@
             android:layout_marginRight="@dimen/title_padding"
             android:layout_marginLeft="@dimen/title_padding"
             android:layout_marginStart="@dimen/title_padding"
-            android:textColor="@color/text_white"
+            android:textColor="@android:color/white"
             android:textSize="16sp" />
 
         <TextView
@@ -47,45 +48,9 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="@string/conn"
-            android:textColor="@color/text_white"
+            android:textColor="@android:color/white"
             android:textSize="16sp" />
     </RelativeLayout>
-
-    <RadioGroup
-        android:id="@+id/data_send_tab"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#d97810"
-        android:orientation="horizontal"
-        android:checkedButton="@id/relay">
-
-        <RadioButton
-            android:id="@+id/relay"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:button="@null"
-            android:gravity="center"
-            android:text="@string/Relay"
-            android:checked="true"
-            android:textColor="@color/text_white"
-            android:drawableBottom="@drawable/radio_btn_bottom"
-            android:textSize="18sp" />
-
-        <RadioButton
-            android:id="@+id/log"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:button="@null"
-            android:gravity="center"
-            android:text="@string/SendRec"
-            android:textColor="@color/text_white"
-            android:drawableBottom="@drawable/radio_btn_bottom"
-            android:textSize="18sp" />
-    </RadioGroup>
 
     <RelativeLayout
         android:id="@+id/alert_layout"
@@ -106,6 +71,43 @@
             android:layout_toEndOf="@id/alert_progress"
             android:layout_toRightOf="@id/alert_progress" />
     </RelativeLayout>
+
+    <RadioGroup
+        android:id="@+id/data_send_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:checkedButton="@id/log">
+
+        <RadioButton
+            android:id="@+id/log"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/SendRec"
+            android:textColor="@color/tab_text_color"
+            android:drawableBottom="@drawable/radio_btn_bottom"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/relay"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/Relay"
+            android:textColor="@color/tab_text_color"
+            android:drawableBottom="@drawable/radio_btn_bottom"
+            android:textSize="18sp" />
+
+
+    </RadioGroup>
 
     <FrameLayout
         android:id="@+id/container"

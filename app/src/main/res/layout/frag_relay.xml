@@ -14,9 +14,7 @@
 
         <TextView
             android:id="@+id/relay1_lable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/relay_margin1"
+            style="@style/relay_text"
             android:text="@string/Relay1" />
 
         <ToggleButton
@@ -35,15 +33,12 @@
 
         <TextView
             android:id="@+id/relay2_lable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/relay_margin1"
+            style="@style/relay_text"
             android:text="@string/Relay2" />
 
         <ToggleButton
             android:id="@+id/relay2_toggle"
-            style="@style/toggleBtn"
-             />
+            style="@style/toggleBtn" />
 
     </LinearLayout>
 
@@ -57,14 +52,12 @@
 
         <TextView
             android:id="@+id/relay3_lable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/relay_margin1"
+            style="@style/relay_text"
             android:text="@string/Relay3" />
 
         <ToggleButton
             android:id="@+id/relay3_toggle"
-            style="@style/toggleBtn"/>
+            style="@style/toggleBtn" />
 
     </LinearLayout>
 
@@ -78,9 +71,7 @@
 
         <TextView
             android:id="@+id/relay4_lable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/relay_margin1"
+            style="@style/relay_text"
             android:text="@string/Relay4" />
 
         <ToggleButton
@@ -99,8 +90,8 @@
         <Button
             android:id="@+id/relayAll_on"
             style="@style/btn"
-            android:layout_marginRight="@dimen/relay_margin"
             android:layout_marginEnd="@dimen/relay_margin"
+            android:layout_marginRight="@dimen/relay_margin"
             android:text="@string/Relay_all_on" />
 
         <Button

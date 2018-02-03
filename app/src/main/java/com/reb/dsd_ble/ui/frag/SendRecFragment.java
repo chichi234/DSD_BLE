@@ -29,7 +29,7 @@ import java.util.Date;
  */
 
 public class SendRecFragment extends BaseFragment {
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.sss ");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
     private TextView mRevView;
     private ToggleButton mRevToggle;
@@ -163,7 +163,7 @@ public class SendRecFragment extends BaseFragment {
             public void run() {
                 String content = v.getText().toString();
                 StringBuilder sb = new StringBuilder(content);
-                sb.append("\n" + getCurrentTime() + appending);
+                sb.append("\n" + getCurrentTime() + " ->" + appending);
                 v.setText(sb.toString());
             }
         });

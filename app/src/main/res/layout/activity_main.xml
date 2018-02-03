@@ -32,7 +32,8 @@
         <RadioButton
             android:id="@+id/settings"
             style="@style/main_tab_btn"
-            android:drawableTop="@drawable/settings"/>
+            android:drawableTop="@drawable/settings"
+            android:visibility="gone"/>
 
         <RadioButton
             android:id="@+id/about"

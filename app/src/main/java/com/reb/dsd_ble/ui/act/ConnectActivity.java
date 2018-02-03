@@ -48,6 +48,7 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
     private static final int MSG_WRITE_SUCCESS = 0x10006;
     private static final int MSG_RECEIVE_DATA = 0x10007;
     private static final int MSG_CONNECT_TIME_OUT = 0x10008;
+    private static final int MSG_HIDE_ALERT = 0x10009;
 
     private RelayFragment mRelayFragment;
     private SendRecFragment mSendRecFragment;
@@ -99,7 +100,6 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
                     mDeviceInfoView.setText(mDeviceName + "(-- dBm)");
                     mConnectBtn.setText(R.string.conn);
                     mRelayFragment.onDisconnected();
-                    mAlertLayout.setVisibility(View.GONE);
                     if (mCurrentFrag == mRelayFragment) {
                         mRelayFragment.controlRelayEnable(false);
                     } else if(mCurrentFrag == mSendRecFragment) {
@@ -111,6 +111,7 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
                     if (!mDeviceAddress.equals(macAddress)) {
                         connect();
                     }
+                    showAlert(R.string.connect_failed, false);
                     break;
                 case MSG_WRITE_SUCCESS:
                     Object[] obj = (Object[]) msg.obj;
@@ -133,6 +134,11 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
                     mBleCore.disconnect();
                     onDeviceDisconnected();
                     mConnectBtn.setEnabled(true);
+                    showAlert(R.string.connect_failed, false);
+                    sendEmptyMessageDelayed(MSG_HIDE_ALERT, 3000);
+                    break;
+                case MSG_HIDE_ALERT:
+                    mAlertLayout.setVisibility(View.GONE);
                     break;
             }
         }
@@ -163,7 +169,7 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
                 mCurrentFrag = mSendRecFragment;
             }
         }
-        changeFragment(mRelayFragment);
+        changeFragment(mSendRecFragment);
     }
 
     @Override
@@ -239,6 +245,7 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
     }
 
     private void showAlert(int stringResId, boolean showBar) {
+        mHandler.removeMessages(MSG_HIDE_ALERT);
         mAlertLayout.setVisibility(View.VISIBLE);
         mAlertText.setText(stringResId);
         if (showBar) {

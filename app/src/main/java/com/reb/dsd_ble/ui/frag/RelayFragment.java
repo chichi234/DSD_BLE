@@ -110,6 +110,14 @@ public class RelayFragment extends BaseFragment {
         reset();
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            controlRelayEnable(BleCore.getInstances().isConnected());
+        }
+    }
+
     public void controlRelayEnable(boolean enable) {
         if (mRelay1 != null) {
             mRelay1.setEnabled(enable);
