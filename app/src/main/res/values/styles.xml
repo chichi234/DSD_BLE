@@ -48,8 +48,8 @@
 
     <style name="toggleBtn">
         <item name="android:button">@drawable/toggle_btn</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">40dp</item>
         <item name="android:background">@null</item>
         <item name="android:textOff">""</item>
         <item name="android:textOn">""</item>

@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
         android:textStyle="bold"
-        android:textColor="@color/text_white"
+        android:textColor="#ffffff"
         android:textSize="24sp"
         android:gravity="center"
         android:background="@color/colorPrimary"

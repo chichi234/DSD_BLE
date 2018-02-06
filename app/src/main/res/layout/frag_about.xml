@@ -11,7 +11,7 @@
         android:gravity="center"
         android:text="@string/about_us"
         android:textSize="24sp"
-        android:textColor="@color/text_white"
+        android:textColor="#ffffff"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -23,8 +23,8 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="221dp"
+            android:layout_height="83dp"
             android:src="@drawable/logo" />
 
         <TextView
