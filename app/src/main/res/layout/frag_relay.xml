@@ -5,7 +5,8 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RadioGroup
+        android:id="@+id/relay1_toggle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/relay_margin_ver"
@@ -17,14 +18,23 @@
             style="@style/relay_text"
             android:text="@string/Relay1" />
 
-        <ToggleButton
+        <RadioButton
+            android:id="@+id/relay1_open"
+            style="@style/relay_open"/>
+
+        <RadioButton
+            android:id="@+id/relay1_close"
+            style="@style/relay_close"/>
+
+        <!--<ToggleButton
             android:id="@+id/relay1_toggle"
-            style="@style/toggleBtn" />
+            style="@style/toggleBtn" />-->
 
-    </LinearLayout>
+    </RadioGroup>
 
 
-    <LinearLayout
+    <RadioGroup
+        android:id="@+id/relay2_toggle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/relay_margin_ver"
@@ -36,14 +46,23 @@
             style="@style/relay_text"
             android:text="@string/Relay2" />
 
-        <ToggleButton
+        <!--<ToggleButton
             android:id="@+id/relay2_toggle"
-            style="@style/toggleBtn" />
+            style="@style/toggleBtn" />-->
 
-    </LinearLayout>
+        <RadioButton
+            android:id="@+id/relay2_open"
+            style="@style/relay_open"/>
+
+        <RadioButton
+            android:id="@+id/relay2_close"
+            style="@style/relay_close"/>
+
+    </RadioGroup>
 
 
-    <LinearLayout
+    <RadioGroup
+        android:id="@+id/relay3_toggle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/relay_margin_ver"
@@ -55,14 +74,23 @@
             style="@style/relay_text"
             android:text="@string/Relay3" />
 
-        <ToggleButton
+       <!-- <ToggleButton
             android:id="@+id/relay3_toggle"
-            style="@style/toggleBtn" />
+            style="@style/toggleBtn" />-->
 
-    </LinearLayout>
+        <RadioButton
+            android:id="@+id/relay3_open"
+            style="@style/relay_open"/>
+
+        <RadioButton
+            android:id="@+id/relay3_close"
+            style="@style/relay_close"/>
+
+    </RadioGroup>
 
 
-    <LinearLayout
+    <RadioGroup
+        android:id="@+id/relay4_toggle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/relay_margin_ver"
@@ -74,11 +102,19 @@
             style="@style/relay_text"
             android:text="@string/Relay4" />
 
-        <ToggleButton
+        <!--<ToggleButton
             android:id="@+id/relay4_toggle"
-            style="@style/toggleBtn" />
+            style="@style/toggleBtn" />-->
 
-    </LinearLayout>
+        <RadioButton
+            android:id="@+id/relay4_open"
+            style="@style/relay_open"/>
+
+        <RadioButton
+            android:id="@+id/relay4_close"
+            style="@style/relay_close"/>
+
+    </RadioGroup>
 
 
     <LinearLayout

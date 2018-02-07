@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -32,12 +34,11 @@ public class SendRecFragment extends BaseFragment {
     private static final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
     private TextView mRevView;
-    private ToggleButton mRevToggle;
+    private RadioGroup mRevToggle, mSendToggle;
     private EditText mSendView;
-    private ToggleButton mSendToggle;
     private Button mSendBtn;
     private EditText mAutoIntervalView;
-    private ToggleButton mAutoToggle;
+    private CheckBox mAutoToggle;
     private Button mClearBtn;
 
     private Handler mHandler = new Handler();
@@ -139,7 +140,8 @@ public class SendRecFragment extends BaseFragment {
 
     private void sendData(String content) {
         byte[] data;
-        if (mSendToggle.isChecked()) {
+//        if (mSendToggle.isChecked()) {
+        if (mSendToggle.getCheckedRadioButtonId() == R.id.tx_open) {
             String rule = HexStringConver.getRuledHexString(content);
             if (!TextUtils.isEmpty(rule)) {
                 data = HexStringConver.convertHexString2Bytes(content);
@@ -179,7 +181,8 @@ public class SendRecFragment extends BaseFragment {
     }
 
     public void receive(byte[] data) {
-        if (mRevToggle.isChecked()) {
+//        if (mRevToggle.isChecked()) {
+        if (mRevToggle.getCheckedRadioButtonId() == R.id.rx_open) {
             appendViewContent(mRevView, HexStringConver.bytes2HexStr(data));
         } else {
             appendViewContent(mRevView, new String(data));

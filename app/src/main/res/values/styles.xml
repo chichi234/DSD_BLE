@@ -73,4 +73,17 @@
         <item name="android:textSize">22sp</item>
     </style>
 
+    <style name="relay_open">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">4dp</item>
+        <item name="android:text">@string/relay_open</item>
+    </style>
+
+    <style name="relay_close">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/relay_close</item>
+    </style>
+
 </resources>

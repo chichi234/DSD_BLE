@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.ToggleButton;
 
 import com.reb.dsd_ble.R;
@@ -48,7 +50,10 @@ public class RelayFragment extends BaseFragment {
             {(byte) 0xA0, 4, 0, (byte) 0xA4}
     };
 
-    private ToggleButton mRelay1, mRelay2, mRelay3, mRelay4;
+//    private ToggleButton mRelay1, mRelay2, mRelay3, mRelay4;
+    private RadioGroup mRelay1, mRelay2, mRelay3, mRelay4;
+    private RadioButton mRelayOpen1, mRelayOpen2, mRelayOpen3, mRelayOpen4,
+        mRelayClose1, mRelayClose2,mRelayClose3,mRelayClose4;
     private Button mAllOn, mAllOff;
 
     private boolean mIsAllControl = false;
@@ -88,10 +93,22 @@ public class RelayFragment extends BaseFragment {
             mRelay2 = mRootView.findViewById(R.id.relay2_toggle);
             mRelay3 = mRootView.findViewById(R.id.relay3_toggle);
             mRelay4 = mRootView.findViewById(R.id.relay4_toggle);
+            changeToggle(mRelay1, false);
+            changeToggle(mRelay2, false);
+            changeToggle(mRelay3, false);
+            changeToggle(mRelay4, false);
             mRelay1.setOnCheckedChangeListener(mRelayChangeListener);
             mRelay2.setOnCheckedChangeListener(mRelayChangeListener);
             mRelay3.setOnCheckedChangeListener(mRelayChangeListener);
             mRelay4.setOnCheckedChangeListener(mRelayChangeListener);
+            mRelayOpen1 = mRelay1.findViewById(R.id.relay1_open);
+            mRelayOpen2 = mRelay2.findViewById(R.id.relay2_open);
+            mRelayOpen3 = mRelay3.findViewById(R.id.relay3_open);
+            mRelayOpen4 = mRelay4.findViewById(R.id.relay4_open);
+            mRelayClose1 = mRelay1.findViewById(R.id.relay1_close);
+            mRelayClose2 = mRelay2.findViewById(R.id.relay2_close);
+            mRelayClose3 = mRelay3.findViewById(R.id.relay3_close);
+            mRelayClose4 = mRelay4.findViewById(R.id.relay4_close);
 
             mAllOn = mRootView.findViewById(R.id.relayAll_on);
             mAllOff = mRootView.findViewById(R.id.relayAll_off);
@@ -124,6 +141,17 @@ public class RelayFragment extends BaseFragment {
             mRelay2.setEnabled(enable);
             mRelay3.setEnabled(enable);
             mRelay4.setEnabled(enable);
+
+            mRelayOpen1.setEnabled(enable);
+            mRelayOpen2.setEnabled(enable);
+            mRelayOpen3.setEnabled(enable);
+            mRelayOpen4.setEnabled(enable);
+
+            mRelayClose1.setEnabled(enable);
+            mRelayClose2.setEnabled(enable);
+            mRelayClose3.setEnabled(enable);
+            mRelayClose4.setEnabled(enable);
+
             mAllOn.setEnabled(enable);
             mAllOff.setEnabled(enable);
         }
@@ -180,9 +208,25 @@ public class RelayFragment extends BaseFragment {
         }
     }
 
-    private void changeToggle(ToggleButton relay, boolean checked) {
+    private void changeToggle(RadioGroup relay, boolean checked) {
         relay.setOnCheckedChangeListener(null);
-        relay.setChecked(checked);
+        int checkedId = R.id.relay1_open;
+        switch (relay.getId()) {
+            case R.id.relay1_toggle:
+                checkedId = checked ? R.id.relay1_open : R.id.relay1_close;
+                break;
+            case R.id.relay2_toggle:
+                checkedId = checked ? R.id.relay2_open : R.id.relay2_close;
+                break;
+            case R.id.relay3_toggle:
+                checkedId = checked ? R.id.relay3_open : R.id.relay3_close;
+                break;
+            case R.id.relay4_toggle:
+                checkedId = checked ? R.id.relay4_open : R.id.relay4_close;
+                break;
+        }
+        relay.check(checkedId);
+//        relay.setChecked(checked);
         relay.setOnCheckedChangeListener(mRelayChangeListener);
     }
 
@@ -202,21 +246,62 @@ public class RelayFragment extends BaseFragment {
         mHandler.removeCallbacksAndMessages(null);
     }
 
-    private CompoundButton.OnCheckedChangeListener mRelayChangeListener = new CompoundButton.OnCheckedChangeListener() {
+//    private CompoundButton.OnCheckedChangeListener mRelayChangeListener = new CompoundButton.OnCheckedChangeListener() {
+//        @Override
+//        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//            int index = -1;
+//            switch (buttonView.getId()) {
+//                case R.id.relay1_toggle:
+//                    index = 0;
+//                    break;
+//                case R.id.relay2_toggle:
+//                    index = 1;
+//                    break;
+//                case R.id.relay3_toggle:
+//                    index = 2;
+//                    break;
+//                case R.id.relay4_toggle:
+//                    index = 3;
+//                    break;
+//            }
+//            if (index != -1) {
+//                mHandler.sendMessage(mHandler.obtainMessage(MSG_SEND_DATA, isChecked ? RELAY_ON[index] : RELAY_OFF[index]));
+//            }
+//        }
+//    };
+
+    private RadioGroup.OnCheckedChangeListener mRelayChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
             int index = -1;
-            switch (buttonView.getId()) {
-                case R.id.relay1_toggle:
+            boolean isChecked = true;
+            switch (checkedId) {
+                case R.id.relay1_open:
                     index = 0;
                     break;
-                case R.id.relay2_toggle:
+                case R.id.relay2_open:
                     index = 1;
                     break;
-                case R.id.relay3_toggle:
+                case R.id.relay3_open:
                     index = 2;
                     break;
-                case R.id.relay4_toggle:
+                case R.id.relay4_open:
+                    index = 3;
+                    break;
+                case R.id.relay1_close:
+                    index = 0;
+                    isChecked = false;
+                    break;
+                case R.id.relay2_close:
+                    index = 1;
+                    isChecked = false;
+                    break;
+                case R.id.relay3_close:
+                    index = 2;
+                    isChecked = false;
+                    break;
+                case R.id.relay4_close:
+                    isChecked = false;
                     index = 3;
                     break;
             }
@@ -225,6 +310,7 @@ public class RelayFragment extends BaseFragment {
             }
         }
     };
+
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override

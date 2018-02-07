@@ -35,10 +35,27 @@
         android:layout_marginEnd="@dimen/title_padding"
         android:layout_centerVertical="true"
         android:text="@string/hex_rx" />
-    <ToggleButton
+    <!--<ToggleButton
         android:id="@+id/toggle_rx"
         style="@style/toggleBtn"
-        android:layout_toEndOf="@id/rx_lable" />
+        android:layout_toEndOf="@id/rx_lable" />-->
+
+    <RadioGroup
+        android:id="@+id/toggle_rx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_toEndOf="@id/rx_lable"
+        android:checkedButton="@id/rx_close">
+
+        <RadioButton
+            android:id="@+id/rx_open"
+            style="@style/relay_open"/>
+
+        <RadioButton
+            android:id="@+id/rx_close"
+            style="@style/relay_close"/>
+    </RadioGroup>
 
     <Button
         android:id="@+id/clear"
@@ -89,10 +106,26 @@
                 android:layout_height="wrap_content"
                 android:text="@string/hex_tx"/>
 
-            <ToggleButton
+            <!--<ToggleButton
                 android:id="@+id/toggle_tx"
                 android:layout_gravity="end|right"
-                style="@style/toggleBtn"/>
+                style="@style/toggleBtn"/>-->
+
+            <RadioGroup
+                android:id="@+id/toggle_tx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:checkedButton="@id/tx_close">
+
+                <RadioButton
+                    android:id="@+id/tx_open"
+                    style="@style/relay_open"/>
+
+                <RadioButton
+                    android:id="@+id/tx_close"
+                    style="@style/relay_close"/>
+            </RadioGroup>
 <!--
             <RadioGroup
                 android:id="@+id/sendType"
@@ -134,6 +167,7 @@
             android:layout_height="30dp" />
 
         <TextView
+            android:id="@+id/repeat_interval_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
@@ -144,7 +178,15 @@
             android:layout_marginEnd="@dimen/relay_margin"
             android:layout_marginRight="@dimen/relay_margin"/>
 
-        <TextView
+        <CheckBox
+            android:id="@+id/toggle_auto_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/repeat_interval_unit"
+            android:text="@string/auto_send"/>
+
+       <!-- <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
@@ -153,14 +195,14 @@
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/toggle_auto_send"
             android:layout_toLeftOf="@id/toggle_auto_send"
-            android:layout_marginEnd="@dimen/title_padding"/>
+            android:layout_marginEnd="@dimen/title_padding"/>-->
 
-        <ToggleButton
+        <!--<ToggleButton
             android:id="@+id/toggle_auto_send"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            style="@style/toggleBtn" />
+            style="@style/toggleBtn" />-->
 
        <!-- <Button
             android:id="@+id/conn"
