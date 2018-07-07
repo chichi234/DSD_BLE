@@ -70,7 +70,7 @@ public class BeaconFragment extends BaseCommunicateFragment implements View.OnCl
 
     private void setTransmitPower() {
         int position = mTransmitPower.getSelectedItemPosition();
-        String command = "AT+TXPOWER=" + Integer.toHexString(position);
+        String command = "AT+TXPOWER=" + Integer.toHexString(position).toUpperCase();
         sendData(command);
     }
 
