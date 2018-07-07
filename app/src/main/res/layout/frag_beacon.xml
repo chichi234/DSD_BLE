@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp"
+        android:paddingTop="15dp">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:rowCount="3"
+            android:useDefaultMargins="true"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:id="@+id/transmit_power_label"
+                style="@style/becon_text"
+                android:text="@string/transmit_power" />
+
+            <Spinner
+                android:id="@+id/transmit_power"
+                style="@style/beacon_spinner"
+                android:layout_gravity="fill_horizontal"
+                android:entries="@array/transmit_power" />
+
+            <Button
+                android:id="@+id/transmit_power_set"
+                style="@style/btn"
+                android:text="@string/set" />
+
+            <TextView
+                android:id="@+id/ad_interval_label"
+                style="@style/becon_text"
+                android:text="@string/ad_interval" />
+
+            <Spinner
+                android:id="@+id/ad_interval"
+                style="@style/beacon_spinner"
+                android:layout_gravity="fill_horizontal"
+                android:entries="@array/ad_interval" />
+
+            <Button
+                android:id="@+id/ad_interval_set"
+                style="@style/btn"
+                android:text="@string/set" />
+
+            <TextView
+                android:id="@+id/beacon_name_label"
+                style="@style/becon_text"
+                android:labelFor="@+id/beacon_name"
+                android:text="@string/beacon_name" />
+
+            <EditText
+                android:id="@+id/beacon_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:inputType="text"
+                android:lines="1"
+                android:maxWidth="100dp"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/abeacon_name_set"
+                style="@style/btn"
+                android:text="@string/set" />
+        </GridLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edit_bg"
+            android:paddingBottom="12dp"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/eddystone_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/eddystone"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/eddystone_label"
+                style="@style/becon_text"
+                android:layout_below="@+id/eddystone_title"
+                android:labelFor="@+id/eddystone"
+                android:layout_marginTop="10dp"
+                android:text="@string/url_https" />
+
+            <EditText
+                android:id="@+id/eddystone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/eddystone_label"
+                android:layout_toEndOf="@+id/eddystone_label"
+                android:inputType="text"
+                android:lines="1"
+                android:minWidth="100dp"
+                android:textSize="22sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/eddystone_label"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp">
+
+                <Button
+                    android:id="@+id/enable_eddystone"
+                    style="@style/beacon_long_btn"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/enable" />
+
+                <Button
+                    android:id="@+id/disable_eddystone"
+                    style="@style/beacon_long_btn"
+                    android:text="@string/disable" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/edit_bg"
+            android:paddingBottom="12dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/iBeacon_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/iBeacon"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/uuid_label"
+                style="@style/becon_text"
+                android:layout_below="@+id/iBeacon_title"
+                android:labelFor="@+id/eddystone"
+                android:layout_marginTop="10dp"
+                android:text="@string/uuid" />
+
+            <EditText
+                android:id="@+id/uuid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/uuid_label"
+                android:layout_toEndOf="@+id/uuid_label"
+                android:inputType="text"
+                android:lines="1"
+                android:minWidth="100dp"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:id="@+id/major_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/uuid_label"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/major_label"
+                    style="@style/becon_text"
+                    android:labelFor="@+id/major"
+                    android:text="@string/major" />
+
+                <EditText
+                    android:id="@+id/major"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned"
+                    android:selectAllOnFocus="true"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/minor_label"
+                    style="@style/becon_text"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:labelFor="@+id/minor"
+                    android:text="@string/minor" />
+
+                <EditText
+                    android:id="@+id/minor"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned"
+                    android:selectAllOnFocus="true"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/major_layout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp">
+
+                <Button
+                    android:id="@+id/enable_major"
+                    android:layout_marginEnd="10dp"
+                    style="@style/beacon_long_btn"
+                    android:text="@string/enable" />
+
+                <Button
+                    android:id="@+id/disable_major"
+                    style="@style/beacon_long_btn"
+                    android:text="@string/disable" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/finish"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:minWidth="200dp"
+            style="@style/beacon_long_btn"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:text="@string/finish" />
+    </LinearLayout>
+</ScrollView>

@@ -5,7 +5,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 
 import com.reb.dsd_ble.R;
-import com.reb.dsd_ble.ui.frag.BaseFragment;
+import com.reb.dsd_ble.ui.frag.base.BaseFragment;
 
 /**
  * File description

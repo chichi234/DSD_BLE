@@ -107,6 +107,19 @@
             android:drawableBottom="@drawable/radio_btn_bottom"
             android:textSize="18sp" />
 
+        <RadioButton
+            android:id="@+id/beacon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/beacon"
+            android:textColor="@color/tab_text_color"
+            android:drawableBottom="@drawable/radio_btn_bottom"
+            android:textSize="18sp" />
+
 
     </RadioGroup>
 

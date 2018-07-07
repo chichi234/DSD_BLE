@@ -58,9 +58,9 @@
     <style name="btn">
         <item name="android:background">@drawable/btn_bg</item>
         <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">#ffffff</item>
         <item name="android:paddingStart">6dp</item>
         <item name="android:paddingTop">2dp</item>
-        <item name="android:textColor">#ffffff</item>
         <item name="android:paddingBottom">2dp</item>
         <item name="android:paddingEnd">6dp</item>
         <item name="android:layout_height">30dp</item>
@@ -84,6 +84,28 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:text">@string/relay_close</item>
+    </style>
+
+    <style name="beacon_spinner">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="becon_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="beacon_long_btn" parent="btn">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
+    <style name="edittext">
+        <item name="android:background">@drawable/edit_bg</item>
     </style>
 
 </resources>

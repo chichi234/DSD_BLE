@@ -160,7 +160,7 @@
         <EditText
             android:id="@+id/repeat_interval"
             android:layout_width="80dp"
-            android:background="@drawable/edit_bg"
+            style="@style/edittext"
             android:inputType="number"
             android:selectAllOnFocus="true"
             android:layout_centerVertical="true"

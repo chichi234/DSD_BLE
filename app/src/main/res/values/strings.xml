@@ -89,4 +89,22 @@
     <string name="connect_failed">Failed to connect Bluetooth device, please try again!</string>
     <string name="relay_open">ON</string>
     <string name="relay_close">OFF</string>
+
+    <!-- Beacon Fragment -->
+    <string name="transmit_power">Transmit Power:</string>
+    <string name="set">Set</string>
+    <string name="ad_interval">AD Interval:</string>
+    <string name="beacon_name">Beacon Name:</string>
+    <string name="eddystone">Eddystone</string>
+    <string name="url_https">URL:         https://</string>
+    <string name="enable">Enable</string>
+    <string name="disable">Disable</string>
+    <string name="iBeacon">iBeacon</string>
+    <string name="uuid">UUID:</string>
+    <string name="major">Major:</string>
+    <string name="minor">Minor:</string>
+    <string name="finish">Finish</string>
+    <string name="beacon">Beacon</string>
+    <string name="start">Start</string>
+
 </resources>

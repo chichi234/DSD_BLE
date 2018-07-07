@@ -1,4 +1,4 @@
-package com.reb.dsd_ble.ui.frag;
+package com.reb.dsd_ble.ui.frag.communicate;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,12 +15,13 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.reb.dsd_ble.R;
 import com.reb.dsd_ble.ble.profile.BleCore;
 import com.reb.dsd_ble.ble.profile.utility.BleConfiguration;
 import com.reb.dsd_ble.constant.ShareString;
+import com.reb.dsd_ble.ui.frag.base.BaseCommunicateFragment;
+import com.reb.dsd_ble.ui.frag.base.BaseFragment;
 import com.reb.dsd_ble.util.HexStringConver;
 
 import java.text.SimpleDateFormat;
@@ -30,7 +31,7 @@ import java.util.Date;
  * Created by Administrator on 2018/1/11 0011.
  */
 
-public class SendRecFragment extends BaseFragment {
+public class SendRecFragment extends BaseCommunicateFragment {
     private static final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
     private TextView mRevView;
@@ -140,7 +141,6 @@ public class SendRecFragment extends BaseFragment {
 
     private void sendData(String content) {
         byte[] data;
-//        if (mSendToggle.isChecked()) {
         if (mSendToggle.getCheckedRadioButtonId() == R.id.tx_open) {
             String rule = HexStringConver.getRuledHexString(content);
             if (!TextUtils.isEmpty(rule)) {
@@ -175,24 +175,26 @@ public class SendRecFragment extends BaseFragment {
         return sdf.format(new Date());
     }
 
+    @Override
+    public void onDeviceConnect() {
 
-    public void writeSuccess(byte[] data, boolean success) {
+    }
+
+    @Override
+    public void onDeviceDisConnect() {
+
+    }
+
+    @Override
+    public void onWriteSuccess(byte[] data, boolean success) {
 
     }
 
     public void receive(byte[] data) {
-//        if (mRevToggle.isChecked()) {
         if (mRevToggle.getCheckedRadioButtonId() == R.id.rx_open) {
             appendViewContent(mRevView, HexStringConver.bytes2HexStr(data));
         } else {
             appendViewContent(mRevView, new String(data));
         }
-    }
-
-    public void connected() {
-
-    }
-
-    public void disconnected() {
     }
 }

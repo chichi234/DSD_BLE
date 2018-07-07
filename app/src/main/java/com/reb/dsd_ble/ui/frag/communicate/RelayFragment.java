@@ -1,4 +1,4 @@
-package com.reb.dsd_ble.ui.frag;
+package com.reb.dsd_ble.ui.frag.communicate;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -8,14 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.ToggleButton;
 
 import com.reb.dsd_ble.R;
 import com.reb.dsd_ble.ble.profile.BleCore;
-import com.reb.dsd_ble.ui.adapter.DeviceAdapter;
+import com.reb.dsd_ble.ui.frag.base.BaseCommunicateFragment;
+import com.reb.dsd_ble.ui.frag.base.BaseFragment;
 import com.reb.dsd_ble.util.DebugLog;
 
 import java.util.Arrays;
@@ -31,7 +30,7 @@ import java.util.Arrays;
  * @history At 2018-1-11 18:52 created by Reb
  */
 
-public class RelayFragment extends BaseFragment {
+public class RelayFragment extends BaseCommunicateFragment {
 
     private static final int MSG_SEND_ALL = 0x10001;
     private static final int MSG_SEND_DATA = 0x10002;
@@ -157,10 +156,18 @@ public class RelayFragment extends BaseFragment {
         }
     }
 
-    public void onDisconnected() {
-        reset();
+    @Override
+    public void onDeviceConnect() {
+        controlRelayEnable(true);
     }
 
+    @Override
+    public void onDeviceDisConnect() {
+        reset();
+        controlRelayEnable(false);
+    }
+
+    @Override
     public void onWriteSuccess(byte[] data, boolean success) {
 
         if (mIsAllControl && success) {
@@ -206,6 +213,11 @@ public class RelayFragment extends BaseFragment {
                     break;
             }
         }
+    }
+
+    @Override
+    public void receive(byte[] data) {
+
     }
 
     private void changeToggle(RadioGroup relay, boolean checked) {

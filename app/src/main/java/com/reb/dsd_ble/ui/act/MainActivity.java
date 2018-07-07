@@ -1,7 +1,6 @@
 package com.reb.dsd_ble.ui.act;
 
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
@@ -12,8 +11,8 @@ import android.widget.Toast;
 
 import com.reb.dsd_ble.R;
 import com.reb.dsd_ble.ui.frag.AboutFragment;
-import com.reb.dsd_ble.ui.frag.BaseFragment;
-import com.reb.dsd_ble.ui.frag.DeviceListFragment;
+import com.reb.dsd_ble.ui.frag.base.BaseFragment;
+import com.reb.dsd_ble.ble.scanner.DeviceListFragment;
 import com.reb.dsd_ble.ui.frag.SettingsFragment;
 
 public class MainActivity extends BaseFragmentActivity {

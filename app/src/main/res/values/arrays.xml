@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="transmit_power">
+        <item>-21db</item>
+        <item>-18db</item>
+        <item>-15db</item>
+        <item>-12db</item>
+        <item>-9db</item>
+        <item>-6db</item>
+        <item>-3db</item>
+        <item>-0db</item>
+        <item>-1db</item>
+        <item>-2db</item>
+        <item>-3db</item>
+        <item>-4db</item>
+        <item>-5db</item>
+    </string-array>
+
+    <string-array name="ad_interval" >
+        <item>100</item>
+        <item>200</item>
+        <item>300</item>
+        <item>400</item>
+        <item>500</item>
+        <item>600</item>
+        <item>700</item>
+        <item>800</item>
+        <item>900</item>
+        <item>1000</item>
+    </string-array>
+
+</resources>
