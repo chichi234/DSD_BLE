@@ -70,6 +70,10 @@ public class BeaconStartFragment extends BaseCommunicateFragment implements View
     public void onClick(View v) {
         BleCore.getInstances().sendData("#OpenDSDAtEngine#".getBytes());
         mStartBtn.setEnabled(false);
+        // TODO 删除
+        if (mAouthListener != null) {
+            mAouthListener.onAouthSuccess();
+        }
     }
 
     public void setAouthListener(AouthListener aouthListener) {

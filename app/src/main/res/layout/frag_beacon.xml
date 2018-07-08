@@ -69,7 +69,7 @@
                 android:textSize="18sp" />
 
             <Button
-                android:id="@+id/abeacon_name_set"
+                android:id="@+id/beacon_name_set"
                 style="@style/btn"
                 android:text="@string/set" />
         </GridLayout>

@@ -100,9 +100,10 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
                     mConnectBtn.setText(R.string.conn);
                     if (mCurrentFrag != null) {
                         ((BaseCommunicateFragment)mCurrentFrag).onDeviceDisConnect();
-                        if (mCurrentFrag == mBeaconFragment) {
-                            changeFragment(mBeaconStartFragment);
-                        }
+                        // TODO
+//                        if (mCurrentFrag == mBeaconFragment) {
+//                            changeFragment(mBeaconStartFragment);
+//                        }
                     }
                     break;
                 case MSG_LINK_LOSS:
