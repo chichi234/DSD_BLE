@@ -1,5 +1,7 @@
 package com.reb.dsd_ble;
 
+import com.reb.dsd_ble.util.HexStringConver;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -13,6 +15,6 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
-        System.out.print(Integer.toHexString(10));
+        System.out.print(HexStringConver.String2HexStr("123,oassdd"));
     }
 }

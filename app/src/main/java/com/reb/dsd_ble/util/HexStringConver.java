@@ -94,4 +94,15 @@ public class HexStringConver {
         return sb.toString();
     }
 
+    public static String String2HexStr(String string) {
+        StringBuilder hex = new StringBuilder();
+        if (string != null && !string.isEmpty()) {
+            char[] chars = string.toCharArray();
+            for (char aChar : chars) {
+                hex.append(String.format(Locale.getDefault(), "%02X", (int) aChar));
+            }
+        }
+        return hex.toString();
+    }
+
 }

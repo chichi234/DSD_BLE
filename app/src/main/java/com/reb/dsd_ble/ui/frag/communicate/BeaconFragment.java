@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.InputFilter;
-import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import android.widget.Toast;
 import com.reb.dsd_ble.R;
 import com.reb.dsd_ble.ble.profile.BleCore;
 import com.reb.dsd_ble.ui.frag.base.BaseCommunicateFragment;
+import com.reb.dsd_ble.util.HexStringConver;
 
 /**
  * File description
@@ -151,14 +151,60 @@ public class BeaconFragment extends BaseCommunicateFragment implements View.OnCl
             case R.id.disable_eddystone:
                 disableEddystone();
                 break;
+            case R.id.enable_major:
+                enableiBeacon();
+                break;
+            case R.id.disable_major:
+                disableiBeacon();
+                break;
+            case R.id.finish:
+                sendFinish();
+                break;
         }
     }
 
-    private void enableEddystone() {
-        String net = mEddystone.getText().toString();
-        int length =2;
-        String command = "AT+BADVDATA=" + "0,0201060303AAFF" + length;
+    public void sendFinish() {
+        String command = "AT+CLOSEAT";
         sendData(command);
+    }
+
+    private void disableiBeacon() {
+        String command = "AT+BADVDATA=0,00,0";
+        sendData(command);
+    }
+
+    private void enableiBeacon() {
+        //AT+BADVDATA=0,0201061AFF4C000215{UUID}{Major}{Minor}FD,1
+        String uuid = mUUID.getText().toString();
+        int majorInt = Integer.parseInt(mMajor.getText().toString());
+        int minorInt = Integer.parseInt(mMinor.getText().toString());
+        if (uuid.length() != 32 * 2) {
+            // TODO
+            return;
+        }
+        if (majorInt < 0 || majorInt > 0xFFFF) {
+            // TODO
+            return;
+        }
+        if (minorInt < 0 || minorInt > 0xFFFF) {
+            // TODO
+            return;
+        }
+        String major = String.format("%04X", majorInt);
+        String minor = String.format("%04X", minorInt);
+        String command = "AT+BADVDATA=0,0201061AFF4C000215" + uuid + major + minor + "FD,1";
+        sendData(command);
+    }
+
+    private void enableEddystone() {
+        String net = HexStringConver.String2HexStr(mEddystone.getText().toString());
+        if (net.isEmpty()) {
+            // TODO
+        } else {
+            int length = net.length() / 2 + 6;
+            String command = "AT+BADVDATA=" + "0,0201060303AAFF" + length + "16AAFE10EB03" + net + ",1" ;
+            sendData(command);
+        }
     }
 
     private void disableEddystone() {
@@ -209,6 +255,20 @@ public class BeaconFragment extends BaseCommunicateFragment implements View.OnCl
         mTransmitPowerBtn.setEnabled(enable);
         mAdIntervalBtn.setEnabled(enable);
         mBeaconNameBtn.setEnabled(enable);
+        mEddystoneEnableBtn.setEnabled(enable);
+        mEddystoneDisnableBtn.setEnabled(enable);
+        miBeaconEnableBtn.setEnabled(enable);
+        miBeaconDisableBtn.setEnabled(enable);
+        mFinishBtn.setEnabled(enable);
     }
 
+    private SetDSDStateListener mListener;
+
+    public void setDsdStateListener(SetDSDStateListener listener) {
+        mListener = listener;
+    }
+
+    public interface SetDSDStateListener {
+        void onExitSetState();
+    }
 }
