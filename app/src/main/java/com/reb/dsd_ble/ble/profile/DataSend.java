@@ -138,7 +138,7 @@ public class DataSend {
 //    /**
 //     *
 //     * @Title: startSendThread
-//     * @Description: TODO
+//     * @Description:
 //     * @param @param cmd
 //     * @return void
 //     * @exception/throws description

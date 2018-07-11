@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.reb.dsd_ble.R;
 import com.reb.dsd_ble.ble.profile.BleCore;
 import com.reb.dsd_ble.ui.frag.base.BaseCommunicateFragment;
+import com.reb.dsd_ble.util.DebugLog;
 import com.reb.dsd_ble.util.HexStringConver;
 
 /**
@@ -127,6 +128,7 @@ public class BeaconFragment extends BaseCommunicateFragment implements View.OnCl
 
     @Override
     public void receive(byte[] data) {
+        DebugLog.i("receive:" + new String(data));
         if ("OK".equals(new String(data))) {
             setViewEnable(true);
             mHandler.removeMessages(MSG_SEND_CMD_FAILED);

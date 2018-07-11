@@ -4,6 +4,8 @@ import com.reb.dsd_ble.util.HexStringConver;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 
 /**
@@ -15,6 +17,8 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
-        System.out.print(HexStringConver.String2HexStr("123,oassdd"));
+//        System.out.print(HexStringConver.String2HexStr("123,oassdd"));
+        System.out.println(new String(new byte[]{65, 84, 43, 84, 88, 80, 79, 87, 69, 82, 61, 48, 92, 114, 92, 110}));
+        System.out.println(Arrays.toString("#OpenDSDAtEngine#".getBytes()));
     }
 }

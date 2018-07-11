@@ -1,5 +1,6 @@
 package com.reb.dsd_ble.ui.frag.communicate;
 
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import com.reb.dsd_ble.R;
 import com.reb.dsd_ble.ble.profile.BleCore;
 import com.reb.dsd_ble.ui.frag.base.BaseCommunicateFragment;
+import com.reb.dsd_ble.util.DebugLog;
 
 /**
  * File description
@@ -59,6 +61,7 @@ public class BeaconStartFragment extends BaseCommunicateFragment implements View
     @Override
     public void receive(byte[] data) {
         String resp = new String(data);
+        DebugLog.i("receive:" + resp);
         if ("$OK,Opened$".equals(resp)) {
             if (mAouthListener != null) {
                 mAouthListener.onAouthSuccess();
@@ -70,10 +73,10 @@ public class BeaconStartFragment extends BaseCommunicateFragment implements View
     public void onClick(View v) {
         BleCore.getInstances().sendData("#OpenDSDAtEngine#".getBytes());
         mStartBtn.setEnabled(false);
-        // TODO 删除
-        if (mAouthListener != null) {
-            mAouthListener.onAouthSuccess();
-        }
+//        // TODO 删除
+//        if (mAouthListener != null) {
+//            mAouthListener.onAouthSuccess();
+//        }
     }
 
     public void setAouthListener(AouthListener aouthListener) {
