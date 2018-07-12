@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="3"
-            android:rowCount="3"
             android:useDefaultMargins="true"
             tools:ignore="UselessParent">
 
@@ -65,13 +64,21 @@
                 android:layout_gravity="fill_horizontal"
                 android:inputType="text"
                 android:lines="1"
+                android:hint="@string/beacon_name_check"
                 android:maxWidth="100dp"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:text="SH-A12"/>
 
             <Button
                 android:id="@+id/beacon_name_set"
                 style="@style/btn"
                 android:text="@string/set" />
+
+            <TextView
+                android:id="@+id/beacon_name_check"
+                style="@style/chect_text"
+                android:layout_columnSpan="3"
+                android:text="@string/beacon_name_check"/>
         </GridLayout>
 
         <RelativeLayout
@@ -107,7 +114,8 @@
                 android:inputType="text"
                 android:lines="1"
                 android:minWidth="100dp"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                android:text="goo.gl/sAmdHB"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -151,7 +159,7 @@
             <TextView
                 android:id="@+id/uuid_label"
                 style="@style/becon_text"
-                android:layout_below="@+id/iBeacon_title"
+                android:layout_alignBottom="@+id/uuid"
                 android:labelFor="@+id/eddystone"
                 android:layout_marginTop="10dp"
                 android:text="@string/uuid" />
@@ -160,18 +168,26 @@
                 android:id="@+id/uuid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/uuid_label"
+                android:layout_below="@+id/iBeacon_title"
                 android:layout_toEndOf="@+id/uuid_label"
                 android:inputType="text"
-                android:lines="1"
-                android:minWidth="100dp"
-                android:textSize="18sp" />
+                android:lines="2"
+                android:ellipsize="none"
+                android:textSize="18sp"
+                android:hint="@string/uuid_check"
+                android:text="FDA50693A4E24FB1AFCFC6EB07647825"/>
+
+            <TextView
+                android:id="@+id/uuid_check"
+                style="@style/chect_text"
+                android:text="@string/uuid_check"
+                android:layout_below="@+id/uuid"/>
 
             <LinearLayout
                 android:id="@+id/major_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/uuid_label"
+                android:layout_below="@+id/uuid_check"
                 android:layout_marginTop="10dp"
                 android:layout_centerHorizontal="true"
                 android:orientation="horizontal">
@@ -188,7 +204,9 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberSigned"
                     android:selectAllOnFocus="true"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:hint="@string/major_check"
+                    android:text="10010"/>
 
                 <TextView
                     android:id="@+id/minor_label"
@@ -204,14 +222,22 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberSigned"
                     android:selectAllOnFocus="true"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:hint="@string/major_check"
+                    android:text="10021"/>
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/major_check"
+                style="@style/chect_text"
+                android:text="@string/major_check"
+                android:layout_below="@+id/major_layout"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/major_layout"
+                android:layout_below="@+id/major_check"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"

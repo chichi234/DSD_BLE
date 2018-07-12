@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class DataSend {
-	private final static String TAG = "DataSend";
+    private final static String TAG = "DataSend";
 
     public static final int STATE_DATA_SEND_IDLE = 0;
     private final int STATE_DATA_SENDING = 1;
@@ -38,30 +38,29 @@ public class DataSend {
     private final AbTaskQueue mAbTaskQueue = AbTaskQueue.getInstance();
 
     private BluetoothGatt mGatt = null;
-    
-//    public String mDeviceAddressOfThis=null;
+
+    //    public String mDeviceAddressOfThis=null;
     public UUID mServiceUuid = null;
-//    private UUID mShortDataCharacteristic = null;
+    //    private UUID mShortDataCharacteristic = null;
 //    private int mShortDataCharacteristicWriteType = BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE;
     private UUID mLongDataCharacteristic = null;
-//    private int mLongDataCharacteristicWriteType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT;
+    //    private int mLongDataCharacteristicWriteType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT;
     private int mLongDataCharacteristicWriteType = BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE;
 
     public DataSend(UUID mServiceUuid, /*UUID mShortDataCharacteristic,
                     int mShortDataCharacteristicWriteType,*/
                     UUID mLongDataCharacteristic, int mLongDataCharacteristicWriteType) {
-		super();
-		this.mServiceUuid = mServiceUuid;
+        super();
+        this.mServiceUuid = mServiceUuid;
 //		this.mShortDataCharacteristic = mShortDataCharacteristic;
 //		this.mShortDataCharacteristicWriteType = mShortDataCharacteristicWriteType;
-		this.mLongDataCharacteristic = mLongDataCharacteristic;
-		this.mLongDataCharacteristicWriteType = mLongDataCharacteristicWriteType;
-	}
+        this.mLongDataCharacteristic = mLongDataCharacteristic;
+        this.mLongDataCharacteristicWriteType = mLongDataCharacteristicWriteType;
+    }
 
-	public void sendData(final BluetoothGatt gatt, final byte[] cmd) {
-        DebugLog.i("sendData cmd :"+cmd+",gatt :"+gatt);
-        if (cmd == null || gatt== null || cmd.length == 0
-        		) {
+    public void sendData(final BluetoothGatt gatt, final byte[] cmd) {
+//        DebugLog.i("sendData cmd :"+cmd+",gatt :"+gatt);
+        if (cmd == null || gatt == null || cmd.length == 0) {
             DebugLog.i("sendData cmd error");
             return;
         }
@@ -76,7 +75,7 @@ public class DataSend {
 
             @Override
             public void get() {
-                DebugLog.i("BleManager send pre:" + BleDataTypeUtils.bytesToHexString(cmd));
+//                DebugLog.i("BleManager send pre:" + BleDataTypeUtils.bytesToHexString(cmd));
                 startSendLongThread(cmd);
             }
         });
@@ -97,7 +96,7 @@ public class DataSend {
      *
      */
     private void sendCmd2Ble(final byte[] cmd) {
-        DebugLog.i("sendCmd2Ble start");
+//        DebugLog.i("sendCmd2Ble start");
         synchronized (mSendThreadLock) {
             BluetoothGattCharacteristic characteristic = null;
             try {
@@ -116,23 +115,23 @@ public class DataSend {
                 }
 
                 mServiceState = STATE_DATA_SENDING;
-                    characteristic = bgs.getCharacteristic(mLongDataCharacteristic);
-                    if (characteristic == null) {
-                        updateCmdState(STATE_DATA_SEND_IDLE);
-                        DebugLog.i("GattAttributes.SMALLRADAR_BLE_SERVICE_WRITE_NOTIFY_CHARACTERISTIC is null,mLongDataCharacteristic:" + mLongDataCharacteristic);
-                        return;
-                    }
-                    characteristic.setWriteType(mLongDataCharacteristicWriteType);
+                characteristic = bgs.getCharacteristic(mLongDataCharacteristic);
+                if (characteristic == null) {
+                    updateCmdState(STATE_DATA_SEND_IDLE);
+                    DebugLog.i("GattAttributes.SMALLRADAR_BLE_SERVICE_WRITE_NOTIFY_CHARACTERISTIC is null,mLongDataCharacteristic:" + mLongDataCharacteristic);
+                    return;
+                }
+                characteristic.setWriteType(mLongDataCharacteristicWriteType);
 //                }
                 characteristic.setValue(cmd);
                 boolean writeResult = bg.writeCharacteristic(characteristic);
-                DebugLog.i("write  result: " + writeResult +",cmd: " + BleDataTypeUtils.bytesToHexString(cmd));
+                DebugLog.i("write  result: " + writeResult + ",cmd: " + BleDataTypeUtils.bytesToHexString(cmd));
             } catch (Exception e) {
                 DebugLog.i("write failed,characteristic is  not exist ");
                 updateCmdState(STATE_DATA_SEND_IDLE);
             }
         }
-        DebugLog.i("sendCmd2Ble end");
+//        DebugLog.i("sendCmd2Ble end");
     }
 
 //    /**
@@ -151,11 +150,10 @@ public class DataSend {
 //    }
 
     /**
-     *
-     * @Title: startSendLongDataThread
-     * @Description: 发送长数据线程
      * @param @param cmd
      * @return void
+     * @Title: startSendLongDataThread
+     * @Description: 发送长数据线程
      * @exception/throws description
      */
     private void startSendLongThread(final byte[] cmd) {
@@ -169,7 +167,7 @@ public class DataSend {
         is_long_data = true;
         int ChunkNumble = 0;
         while (!isLastChunk) {
-            DebugLog.i("发送第" + ChunkNumble + "个包, state:" + mServiceState);
+//            DebugLog.i("发送第" + ChunkNumble + "个包, state:" + mServiceState);
             switch (mServiceState) {
                 case STATE_DATA_SENDING:
                     continue;
@@ -282,14 +280,14 @@ public class DataSend {
      */
     public void sendNextCmd(boolean sendfail) {
         // TODO Auto-generated method stub
-        Log.i(TAG,"BleManager sendNextCmd");
+        Log.i(TAG, "BleManager sendNextCmd");
         if (mTaskItems.size() > 0) {
             if (!sendfail) {
-                Log.i(TAG,"BleManager sendNextCmd,remove");
+                Log.i(TAG, "BleManager sendNextCmd,remove");
                 removeTaskItems(0);
             }
             if (mTaskItems.size() > 0) {
-                Log.i(TAG,"BleManager sendNextCmd,execute");
+                Log.i(TAG, "BleManager sendNextCmd,execute");
                 mAbTaskQueue.execute(mTaskItems.get(0));
             }
 

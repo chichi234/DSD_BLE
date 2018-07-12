@@ -20,5 +20,8 @@ public class ExampleUnitTest {
 //        System.out.print(HexStringConver.String2HexStr("123,oassdd"));
         System.out.println(new String(new byte[]{65, 84, 43, 84, 88, 80, 79, 87, 69, 82, 61, 48, 92, 114, 92, 110}));
         System.out.println(Arrays.toString("#OpenDSDAtEngine#".getBytes()));
+        System.out.println(Arrays.toString("AT+TXPOWER=".getBytes()));
+        System.out.println(Arrays.toString("\r\n".getBytes()));
+        System.out.println(HexStringConver.String2HexStr("\r\n"));
     }
 }

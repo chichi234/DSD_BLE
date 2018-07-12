@@ -1,7 +1,9 @@
 package com.reb.dsd_ble.ui.act;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +13,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -25,6 +28,7 @@ import com.reb.dsd_ble.ui.frag.communicate.RelayFragment;
 import com.reb.dsd_ble.ui.frag.communicate.SendRecFragment;
 import com.reb.dsd_ble.util.DebugLog;
 
+import java.lang.ref.WeakReference;
 import java.util.Arrays;
 
 /**
@@ -38,7 +42,7 @@ import java.util.Arrays;
  * @history At 2018-1-11 16:21 created by Reb
  */
 
-public class ConnectActivity extends BaseFragmentActivity implements BleManagerCallbacks, BeaconStartFragment.AouthListener{
+public class ConnectActivity extends BaseFragmentActivity implements BleManagerCallbacks, BeaconStartFragment.AouthListener, BeaconFragment.SetDSDStateListener {
     private static final int MSG_READ_RSSI = 0x10001;
     private static final int MSG_READ_RSSI_RESULT = 0x10002;
     private static final int MSG_DEVICE_CONNECTED = 0x10003;
@@ -65,14 +69,26 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
     private String mDeviceAddress;
     private int mRssi;
     private BleCore mBleCore;
+    private boolean mIsFinish = false;
+
+    private WakeHandler<ConnectActivity> mHandler;
 
     @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
+    private class WakeHandler<T> extends Handler {
+        private WeakReference<T> weakReference;
+
+        WakeHandler(T act) {
+            weakReference = new WeakReference<T>(act);
+        }
+
         @Override
         public void handleMessage(Message msg) {
+            if (weakReference.get() == null || mIsFinish) {
+                return;
+            }
             switch (msg.what) {
-                case MSG_READ_RSSI :
-                    if (!mBleCore.readRssi()){
+                case MSG_READ_RSSI:
+                    if (!mBleCore.readRssi()) {
                         mDeviceInfoView.setText(mDeviceName + "(-- dBm)");
                         removeMessages(MSG_READ_RSSI);
                         sendEmptyMessageDelayed(MSG_READ_RSSI, 1000);
@@ -87,7 +103,7 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
                 case MSG_DEVICE_CONNECTED:
                     mAlertLayout.setVisibility(View.GONE);
                     if (mCurrentFrag != null) {
-                        ((BaseCommunicateFragment)mCurrentFrag).onDeviceConnect();
+                        ((BaseCommunicateFragment) mCurrentFrag).onDeviceConnect();
                     }
                     mConnectBtn.setText(R.string.disconn);
                     mConnectBtn.setEnabled(true);
@@ -99,7 +115,7 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
                     mDeviceInfoView.setText(mDeviceName + "(-- dBm)");
                     mConnectBtn.setText(R.string.conn);
                     if (mCurrentFrag != null) {
-                        ((BaseCommunicateFragment)mCurrentFrag).onDeviceDisConnect();
+                        ((BaseCommunicateFragment) mCurrentFrag).onDeviceDisConnect();
                         if (mCurrentFrag == mBeaconFragment) {
                             changeFragment(mBeaconStartFragment);
                         }
@@ -117,13 +133,13 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
                     byte[] writeData = (byte[]) obj[0];
                     boolean success = (boolean) obj[1];
                     if (mCurrentFrag != null) {
-                        ((BaseCommunicateFragment)mCurrentFrag).onWriteSuccess(writeData,success);
+                        ((BaseCommunicateFragment) mCurrentFrag).onWriteSuccess(writeData, success);
                     }
-                     break;
+                    break;
                 case MSG_RECEIVE_DATA:
                     if (mCurrentFrag != null) {
                         byte[] data = (byte[]) msg.obj;
-                        ((BaseCommunicateFragment)mCurrentFrag).receive(data);
+                        ((BaseCommunicateFragment) mCurrentFrag).receive(data);
                     }
                     break;
                 case MSG_CONNECT_TIME_OUT:
@@ -138,11 +154,14 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
                     break;
             }
         }
-    };
+    }
+
+    ;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mHandler = new WakeHandler<>(this);
         setContentView(R.layout.activity_connect);
         initData();
         initView();
@@ -155,6 +174,7 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
             mRelayFragment = new RelayFragment();
             mSendRecFragment = new SendRecFragment();
             mBeaconFragment = new BeaconFragment();
+            mBeaconFragment.setDsdStateListener(this);
             mBeaconStartFragment = new BeaconStartFragment();
             mBeaconStartFragment.setAouthListener(this);
         } else {
@@ -176,8 +196,9 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mHandler.removeCallbacksAndMessages(null);
+        mIsFinish = true;
         BleCore.getInstances().disconnect();
+        mHandler.removeCallbacksAndMessages(null);
     }
 
     private void setData() {
@@ -189,9 +210,9 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
     private void connect() {
         mConnectBtn.setText(R.string.connecting);
         mConnectBtn.setEnabled(false);
-        if (mCurrentFrag == mRelayFragment) {
-            mRelayFragment.controlRelayEnable(false);
-        }
+//        if (mCurrentFrag == mRelayFragment) {
+//            mRelayFragment.controlRelayEnable(false);
+//        }
         showAlert(R.string.connecting_alert, true);
         mBleCore.connect(getApplicationContext(), mDeviceAddress);
         mHandler.sendEmptyMessageDelayed(MSG_CONNECT_TIME_OUT, 6 * 1000);
@@ -207,7 +228,8 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
         mTabGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                BaseFragment target = null;
+                DebugLog.i("checkId:" + checkedId + "," + R.id.beacon + ",====" + (mCurrentFrag == mBeaconFragment));
+                BaseCommunicateFragment target = null;
                 switch (checkedId) {
                     case R.id.relay:
                         target = mRelayFragment;
@@ -219,7 +241,13 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
                         target = mBeaconStartFragment;
                         break;
                 }
-                changeFragment(target);
+                if (mCurrentFrag != null && mCurrentFrag == mBeaconFragment) {
+                    if (checkedId != R.id.beacon) {
+                        showAlertDialog(target);
+                    }
+                } else {
+                    changeFragment(target);
+                }
             }
         });
         mConnectBtn.setOnClickListener(new View.OnClickListener() {
@@ -296,7 +324,7 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
 
     @Override
     public void onWriteSuccess(byte[] data, boolean success) {
-        DebugLog.i("write success:" + Arrays.toString(data) + ",success:" + success);
+//        DebugLog.i("write success:" + Arrays.toString(data) + ",success:" + success);
         mHandler.sendMessage(mHandler.obtainMessage(MSG_WRITE_SUCCESS, new Object[]{data, success}));
     }
 
@@ -314,4 +342,54 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
     public void onAouthSuccess() {
         changeFragment(mBeaconFragment);
     }
+
+    @Override
+    public void onExitSetState() {
+        if (mExitTargetFragment != null) {
+            changeFragment(mExitTargetFragment);
+            mExitTargetFragment = null;
+        } else {
+            changeFragment(mBeaconStartFragment);
+        }
+    }
+
+    @Override
+    public void onExitSetNoResponse() {
+        if (mExitTargetFragment != null) {
+            RadioButton radioButton = findViewById(R.id.beacon);
+            radioButton.setChecked(true);
+            mExitTargetFragment = null;
+        }
+    }
+
+    private void showAlertDialog(final BaseCommunicateFragment targetFragment) {
+        new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog_Alert)
+                .setCancelable(true)
+                .setMessage(R.string.exit_beacon_alert)
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        RadioButton radioButton = findViewById(R.id.beacon);
+                        radioButton.setChecked(true);
+                    }
+                })
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        RadioButton radioButton = findViewById(R.id.beacon);
+                        radioButton.setChecked(true);
+                    }
+                })
+                .setNeutralButton(R.string.sure, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mExitTargetFragment = targetFragment;
+                        mBeaconFragment.sendFinish();
+                        changeFragment(mExitTargetFragment);
+                    }
+                })
+                .create().show();
+    }
+
+    private BaseCommunicateFragment mExitTargetFragment;
 }

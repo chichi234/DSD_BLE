@@ -112,7 +112,7 @@ public class DeviceListFragment extends BaseFragment {
      */
     private void startScan() {
         mAdapter.clearDevices();
-        if (!mIsScanning && confirmPermission() && checkBtState()){
+        if (!mIsScanning && confirmPermission() && checkBtState()) {
             mHasScaned = true;
             boolean scannerRet = mBluetoothAdapter.startLeScan(mLEScanCallback);
             DebugLog.i("scan ret:" + scannerRet);

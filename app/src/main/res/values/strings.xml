@@ -106,5 +106,13 @@
     <string name="finish">Finish</string>
     <string name="beacon">Beacon</string>
     <string name="start">Start</string>
+    <string name="beacon_name_check">Beacon Name must be 1~25 characters</string>
+    <string name="uuid_check">uuid must be 32 characters, and each character should be in [0~9A~F]</string>
+    <string name="uuid_check_length">uuid must be 32 characters</string>
+    <string name="uuid_check_rule">Each character should be in [0~9A~F]</string>
+    <string name="major_check">Major and minor must be an integer,and the range is [0, 65535]</string>
+    <string name="cancel">Cancel</string>
+    <string name="exit_beacon_alert">This operate will cause exit the Set mode.Do you mean it?</string>
+    <string name="sure">Sure</string>
 
 </resources>

@@ -14,10 +14,12 @@ package com.reb.dsd_ble.ui.frag.base;
 public abstract class BaseCommunicateFragment extends BaseFragment {
 
     public abstract void onDeviceConnect();
-    public abstract void onDeviceDisConnect();
-    public abstract void onWriteSuccess(byte[] data, boolean success);
-    public abstract void receive(byte[] data);
 
+    public abstract void onDeviceDisConnect();
+
+    public abstract void onWriteSuccess(byte[] data, boolean success);
+
+    public abstract void receive(byte[] data);
 
 
 }
