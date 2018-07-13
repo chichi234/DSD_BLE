@@ -154,6 +154,9 @@ public class BeaconFragment extends BaseCommunicateFragment implements View.OnCl
     public void receive(byte[] data) {
         DebugLog.i("receive:" + new String(data));
         if (new String(data).contains("OK")) {
+            if (getActivity() != null) {
+                Toast.makeText(getActivity(),"Set command success!",Toast.LENGTH_SHORT).show();
+            }
             if (mIsFinish) {
 //                mIsFinish = false;
 //                mListener.onExitSetState();

@@ -172,7 +172,9 @@ public class DeviceListFragment extends BaseFragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mAdapter.addOrUpdateDevice(extendDevice);
+//                    if ("SH-A12".equals(extendDevice.name)) {
+                        mAdapter.addOrUpdateDevice(extendDevice);
+//                    }
                 }
             });
         }

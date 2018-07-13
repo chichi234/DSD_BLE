@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="3"
-            android:useDefaultMargins="true"
             tools:ignore="UselessParent">
 
             <TextView
@@ -84,7 +83,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/edit_bg"
             android:paddingBottom="12dp"
             android:gravity="center_horizontal">
@@ -142,7 +141,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:background="@drawable/edit_bg"
             android:paddingBottom="12dp"
@@ -264,8 +263,7 @@
             android:layout_gravity="center"
             android:minWidth="200dp"
             style="@style/beacon_long_btn"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginTop="5dp"
             android:text="@string/finish" />
     </LinearLayout>
 </ScrollView>

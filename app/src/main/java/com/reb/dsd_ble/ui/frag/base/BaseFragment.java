@@ -21,7 +21,7 @@ public class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         if (mRootView != null) {
             ViewParent parent = mRootView.getParent();
-            if (parent != null) {s
+            if (parent != null) {
                 ((ViewGroup) parent).removeView(mRootView);
             }
         }
