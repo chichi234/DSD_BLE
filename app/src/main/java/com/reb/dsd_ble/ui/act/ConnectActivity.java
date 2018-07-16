@@ -228,6 +228,7 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
         mTabGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                mExitTargetFragment = null;
                 DebugLog.i("checkId:" + checkedId + "," + R.id.beacon + ",====" + (mCurrentFrag == mBeaconFragment));
                 BaseCommunicateFragment target = null;
                 switch (checkedId) {

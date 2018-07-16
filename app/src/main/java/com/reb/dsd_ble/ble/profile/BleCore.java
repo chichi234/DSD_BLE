@@ -208,12 +208,19 @@ public class BleCore {
                 if (descriptor.getUuid().equals(BleConfiguration.NOTIFY_DESCRIPTOR)) {
                     byte[] value = descriptor.getValue();
                     if (value[0] == BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE[0]) {
+                        mBluetoothGatt.requestMtu(120);
                         mCallbacks.onNotifyEnable();
                     }
                 }
             } else {
                 onError(ERROR_WRITE_DESCRIPTOR, status);
             }
+        }
+
+        @Override
+        public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+            super.onMtuChanged(gatt, mtu, status);
+            Log.e(TAG, "onMtuChanged---->mtu:" + mtu + ",status:" + status);
         }
 
         ;
