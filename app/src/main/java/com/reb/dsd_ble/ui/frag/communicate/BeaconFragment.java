@@ -236,7 +236,7 @@ public class BeaconFragment extends BaseCommunicateFragment implements View.OnCl
         } else {
             net = HexStringConver.String2HexStr(net);
             int length = net.length() / 2 + 6;
-            String command = "AT+BADVDATA=" + "0,0201060303AAFF" + length + "16AAFE10EB03" + net + ",1";
+            String command = "AT+BADVDATA=" + "0,0201060303AAFE" + String.format("%02X", length) + "16AAFE10EB03" + net + ",1";
             sendData(command);
         }
     }

@@ -122,11 +122,20 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
                     }
                     break;
                 case MSG_LINK_LOSS:
+                    removeMessages(MSG_READ_RSSI);
+                    mDeviceInfoView.setText(mDeviceName + "(-- dBm)");
                     String macAddress = (String) msg.obj;
                     if (!mDeviceAddress.equals(macAddress)) {
                         connect();
                     }
+                    mConnectBtn.setText(R.string.conn);
                     showAlert(R.string.connect_failed, false);
+                    if (mCurrentFrag != null) {
+                        ((BaseCommunicateFragment) mCurrentFrag).onDeviceDisConnect();
+                        if (mCurrentFrag == mBeaconFragment) {
+                            changeFragment(mBeaconStartFragment);
+                        }
+                    }
                     break;
                 case MSG_WRITE_SUCCESS:
                     Object[] obj = (Object[]) msg.obj;
@@ -146,6 +155,7 @@ public class ConnectActivity extends BaseFragmentActivity implements BleManagerC
                     mBleCore.disconnect();
                     onDeviceDisconnected();
                     mConnectBtn.setEnabled(true);
+                    mConnectBtn.setText(R.string.conn);
                     showAlert(R.string.connect_failed, false);
                     sendEmptyMessageDelayed(MSG_HIDE_ALERT, 3000);
                     break;

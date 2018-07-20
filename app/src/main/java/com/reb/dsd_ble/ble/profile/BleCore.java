@@ -221,6 +221,7 @@ public class BleCore {
         public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
             super.onMtuChanged(gatt, mtu, status);
             Log.e(TAG, "onMtuChanged---->mtu:" + mtu + ",status:" + status);
+            BleConfiguration.mDataSend.setMTU(mtu);
         }
 
         ;

@@ -27,7 +27,7 @@ public class DataSend {
     private final int STATE_LONG_DATA_SENDING = 6;
     public static final int STATE_DATA_SEND_ERROR = 7;
 
-    private static final int chunkSize = 120;
+    private int chunkSize = 20;
     private int totalChunk;
     private boolean isLastChunk = false;
     private boolean is_long_data = false;
@@ -292,5 +292,9 @@ public class DataSend {
             }
 
         }
+    }
+
+    public void setMTU(int MTU) {
+        this.chunkSize = MTU;
     }
 }
