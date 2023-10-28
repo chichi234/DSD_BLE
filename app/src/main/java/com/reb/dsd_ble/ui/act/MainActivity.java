@@ -1,11 +1,15 @@
 package com.reb.dsd_ble.ui.act;
 
+import android.Manifest;
 import android.app.FragmentManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -17,6 +21,7 @@ import com.reb.dsd_ble.ui.frag.SettingsFragment;
 
 public class MainActivity extends BaseFragmentActivity {
     private static final int REQUEST_ENABLE_BT = 1;
+    private static final int REQUEST_PERMISSION_BT = 2;
 
     private RadioGroup mTabGroup;
 
@@ -94,7 +99,35 @@ public class MainActivity extends BaseFragmentActivity {
 
 
     public void showBLEDialog() {
-        final Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-        startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+        boolean permission_connected = true;
+        boolean permission_scan = true;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                permission_connected = checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED;
+                permission_scan = checkSelfPermission(Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED;
+            }
+        }
+        if(permission_connected && permission_scan){
+            final Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+        }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+                requestPermissions(new String[]{Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_SCAN}, REQUEST_PERMISSION_BT);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == REQUEST_PERMISSION_BT
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED
+        && grantResults[1] == PackageManager.PERMISSION_GRANTED)
+        {
+            showBLEDialog();
+        }else
+        {
+            Toast.makeText(this,"Required permission!!!", Toast.LENGTH_LONG).show();
+            finish();
+        }
     }
 }

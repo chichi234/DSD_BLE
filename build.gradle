@@ -5,9 +5,13 @@ buildscript {
     repositories {
         google()
         jcenter()
+        //maven {url 'http://maven.ailiyun.com/nexus/content/groups/public'}
+        //maven {url 'http://maven.ailiyun.com/repository/google'}
+        //maven {url 'http://maven.ailiyun.com/repository/jcenter'}
+        //maven {url 'http://maven.ailiyun.com/nexus/content/groups/public'}
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:7.0.2'
         
 
         // NOTE: Do not place your application dependencies here; they belong

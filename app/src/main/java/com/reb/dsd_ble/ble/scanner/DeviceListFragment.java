@@ -183,8 +183,8 @@ public class DeviceListFragment extends BaseFragment {
     private boolean confirmPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             String s = "";
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 2);
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
                 return false;
             }
             DebugLog.i("permission:" + s);

@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DSD_BLE.iml" filepath="$PROJECT_DIR$/DSD_BLE.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DSD_BLE-master.iml" filepath="$PROJECT_DIR$/.idea/modules/DSD_BLE-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/DSD_BLE-master.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/DSD_BLE-master.app.iml" />
     </modules>
   </component>
 </project>
